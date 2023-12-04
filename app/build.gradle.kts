@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.fianlandroidassignments.xuancuongstationery"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.fianlandroidassignments.xuancuongstationery"
@@ -25,6 +25,11 @@ android {
             )
         }
     }
+
+    buildFeatures{
+        viewBinding= true;
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
