@@ -4,9 +4,11 @@
     <string name="lbRevenue">Revenue</string>
     <string name="lbBill">Bill</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="lbProductTitle">Product</string>
+    <string name="lbImportTitle">Import</string>
+    <string name="lbCategoryTitle">Category</string>
+    <string name="lbSupplierTitle">Supplier</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="lbProduct"><u>Product</u></string>
-    <string name="lbAddProduct"><u>Add Product</u></string>
-    <string name="lbCategory"><u>Category</u></string>
-    <string name="lbProvider"><u>Provider</u></string>
+    <string name="lbViewDetail"><u>View Detail</u></string>
+    <string name="lbCardNotice">Tap to open</string>
 </resources>

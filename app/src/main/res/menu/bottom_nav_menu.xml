@@ -2,21 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:title="@string/lbHome"
         android:id="@+id/itemHome"
         android:icon="@drawable/baseline_home_24"/>
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:title="@string/lbRevenue"
         android:id="@+id/itemRevenue"
         android:icon="@drawable/baseline_attach_money_24"/>
     <item
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:title="@string/lbBill"
         android:id="@+id/itemBill"
         android:icon="@drawable/baseline_stacked_line_chart_24"/>
+
 </menu>
