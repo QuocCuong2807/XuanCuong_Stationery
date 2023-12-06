@@ -39,7 +39,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbProductTitle"/>
 
@@ -65,7 +65,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/notice"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:text="@string/lbCardNotice"/>
 
                 <TextView
@@ -80,7 +80,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvCategory"
+            android:id="@+id/cvImport"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -99,7 +99,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbImportTitle"/>
 
@@ -125,7 +125,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/notice"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:text="@string/lbCardNotice"/>
 
                 <TextView
@@ -140,6 +140,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvCategory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -184,7 +185,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/notice"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:text="@string/lbCardNotice"/>
 
                 <TextView
@@ -199,6 +200,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvProvider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -217,7 +219,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbSupplierTitle"/>
 
@@ -243,7 +245,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:textColor="@color/notice"
-                    android:textSize="12dp"
+                    android:textSize="12sp"
                     android:text="@string/lbCardNotice"/>
 
                 <TextView

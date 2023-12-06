@@ -8,4 +8,5 @@
     <color name="notice">#A9A9A9</color>
     <color name="textMenuBottom">#808080</color>
     <color name="menuColor">#FBFBF9</color>
+    <color name="titleToolBarColor">#fc638f</color>
 </resources>

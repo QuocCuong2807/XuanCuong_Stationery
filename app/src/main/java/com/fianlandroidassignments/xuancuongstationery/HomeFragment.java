@@ -1,19 +1,24 @@
 package com.fianlandroidassignments.xuancuongstationery;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,6 +51,8 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
+    private CardView cvProduct, cvImport, cvCategory, cvProvider;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +60,46 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        cvProduct = requireActivity().findViewById(R.id.cvProduct);
+        cvImport = requireActivity().findViewById(R.id.cvImport);
+        cvCategory = requireActivity().findViewById(R.id.cvCategory);
+        cvProvider = requireActivity().findViewById(R.id.cvProvider);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
+        CardView cvProduct = (CardView) inflatedView.findViewById(R.id.cvProduct);
+        CardView cvImport = (CardView) inflatedView.findViewById(R.id.cvImport);
+        CardView cvCategory = (CardView) inflatedView.findViewById(R.id.cvCategory);
+        CardView cvProvider = (CardView) inflatedView.findViewById(R.id.cvProvider);
+
+        cvProduct.setOnClickListener(this);
+        cvImport.setOnClickListener(this);
+        cvCategory.setOnClickListener(this);
+        cvProvider.setOnClickListener(this);
+
+        return inflatedView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent it;
+        if (v.getId() == R.id.cvProduct) {
+            Toast.makeText(getContext(), "Chuc nang dang duoc phat trien!", Toast.LENGTH_LONG).show();
+        } else if (v.getId() == R.id.cvImport) {
+            Toast.makeText(getContext(), "Chuc nang dang duoc phat trien!", Toast.LENGTH_LONG).show();
+        } else if (v.getId() == R.id.cvCategory) {
+            it = new Intent(getContext(), CategoryActivity.class);
+            startActivity(it);
+        } else if (v.getId() == R.id.cvProvider) {
+            it = new Intent(getContext(), ProviderActivity.class);
+            startActivity(it);
+        }
     }
 }
