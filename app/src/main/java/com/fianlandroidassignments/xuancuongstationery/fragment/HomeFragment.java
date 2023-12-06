@@ -1,4 +1,4 @@
-package com.fianlandroidassignments.xuancuongstationery;
+package com.fianlandroidassignments.xuancuongstationery.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.Objects;
+import com.fianlandroidassignments.xuancuongstationery.R;
+import com.fianlandroidassignments.xuancuongstationery.activity.CategoryActivity;
+import com.fianlandroidassignments.xuancuongstationery.activity.ProviderActivity;
 
 /**
  * A simple {@link Fragment} subclass.
