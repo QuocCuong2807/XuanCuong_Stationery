@@ -1,13 +1,20 @@
 package com.fianlandroidassignments.xuancuongstationery.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ProviderAdapter;
 import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +23,8 @@ public class ProviderActivity extends AppCompatActivity {
 
     ListView providerListView;
     List<Provider> providers;
+    MaterialToolbar toolbar;
+    FloatingActionButton addNewProviderBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +33,18 @@ public class ProviderActivity extends AppCompatActivity {
 
         references();
         displayListView();
+        manipulateToolbar();
+
+        //set onclick event to add new provider button
+        addNewProviderBtn.setOnClickListener(view -> {
+            Toast.makeText(ProviderActivity.this, "Chức năng thêm mới chưa được phát triển", Toast.LENGTH_LONG).show();
+        });
+    }
+
+    private void manipulateToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void displayListView() {
@@ -39,6 +60,27 @@ public class ProviderActivity extends AppCompatActivity {
     }
 
     private void references() {
-        providerListView = findViewById(R.id.listViewCate);
+        toolbar = findViewById(R.id.customTopProviderBar);
+        providerListView = findViewById(R.id.listViewProvider);
+        addNewProviderBtn = findViewById(R.id.addNewProviderButton);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home)
+            finish();
+        else if (item.getItemId() == R.id.sellStack) {
+            Toast.makeText(ProviderActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

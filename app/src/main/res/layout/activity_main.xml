@@ -7,20 +7,20 @@
     tools:context=".activity.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/homeTopBar"
+        android:id="@+id/homeTopBarParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/homeTopBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/menuColor"
             app:navigationIcon="@drawable/icons8_home"
             app:title="@string/lbStatName"
             app:titleTextColor="@color/titleToolBarColor"
-            app:menu="@menu/top_app_bar"
             />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -51,7 +51,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/homeTopBar"/>
+        app:layout_constraintTop_toBottomOf="@+id/homeTopBarParent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
