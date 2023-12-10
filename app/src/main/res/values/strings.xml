@@ -12,4 +12,6 @@
     <string name="lbViewDetail"><u>View Detail</u></string>
     <string name="lbCardNotice">Tap to open</string>
     <string name="lbStatName">Xuan Cuong</string>
+    <string name="lbContextDel">Delete</string>
+    <string name="lbContextUpdate">Update</string>
 </resources>

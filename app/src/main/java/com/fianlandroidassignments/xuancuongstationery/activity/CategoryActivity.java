@@ -1,11 +1,15 @@
 package com.fianlandroidassignments.xuancuongstationery.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,14 +41,19 @@ public class CategoryActivity extends AppCompatActivity {
         addNewCateBtn.setOnClickListener(view -> {
             Toast.makeText(CategoryActivity.this, "Chức năng thêm mới chưa được phát triển", Toast.LENGTH_LONG).show();
         });
+
+        registerForContextMenu(listViewCategory);
+
     }
 
+    //set toolbar to action bar
     private void manipulateToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    //display data to listview
     private void displayListView() {
         categories = new ArrayList<>();
         CategoryAdapter categoryAdapter = new CategoryAdapter(CategoryActivity.this, categories);
@@ -55,7 +64,7 @@ public class CategoryActivity extends AppCompatActivity {
         categories.add(new Category(4, "Eraser", R.drawable.eraser, 6));
         categories.add(new Category(5, "Office Tools", R.drawable.office_tool, 46));
 
-
+        //register context menu for list view
         listViewCategory.setAdapter(categoryAdapter);
     }
 
@@ -65,6 +74,33 @@ public class CategoryActivity extends AppCompatActivity {
         addNewCateBtn = findViewById(R.id.addNewCateButton);
     }
 
+
+    //create context menu
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    //set onclick event to context menu item
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        if (item.getItemId() == R.id.context_delete)
+            Toast.makeText(CategoryActivity.this, "Ban da chon delete o vi tri: "
+                                                        + info.position, Toast.LENGTH_LONG).show();
+        else if (item.getItemId() == R.id.context_update) {
+            Toast.makeText(CategoryActivity.this, "Ban da chon update o vi tri : "
+                                                        + info.position, Toast.LENGTH_LONG).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    //create topbar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -72,6 +108,7 @@ public class CategoryActivity extends AppCompatActivity {
         return true;
     }
 
+    //set onclick event for topbar menu item
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
