@@ -88,13 +88,15 @@ public class ProviderActivity extends AppCompatActivity {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-        if (item.getItemId() == R.id.context_delete)
+        if (item.getItemId() == R.id.context_view)
+            Toast.makeText(ProviderActivity.this, "Ban da chon xem o vi tri: "
+                                                        + info.position, Toast.LENGTH_LONG).show();
+        else if (item.getItemId() == R.id.context_delete)
             Toast.makeText(ProviderActivity.this, "Ban da chon delete o vi tri: "
                                                         + info.position, Toast.LENGTH_LONG).show();
-        else if (item.getItemId() == R.id.context_update) {
+        else if (item.getItemId() == R.id.context_update)
             Toast.makeText(ProviderActivity.this, "Ban da chon update o vi tri : "
                                                         + info.position, Toast.LENGTH_LONG).show();
-        }
 
         return super.onContextItemSelected(item);
     }

@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/context_view"
+        android:title="@string/lbContextView"/>
+    <item
         android:id="@+id/context_delete"
         android:title="@string/lbContextDel" />
     <item

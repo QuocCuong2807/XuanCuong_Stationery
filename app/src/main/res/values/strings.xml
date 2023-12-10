@@ -14,4 +14,5 @@
     <string name="lbStatName">Xuan Cuong</string>
     <string name="lbContextDel">Delete</string>
     <string name="lbContextUpdate">Update</string>
+    <string name="lbContextView">View more</string>
 </resources>
