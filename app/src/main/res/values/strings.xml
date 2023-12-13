@@ -15,4 +15,14 @@
     <string name="lbContextDel">Delete</string>
     <string name="lbContextUpdate">Update</string>
     <string name="lbContextView">View more</string>
+    <string name="lbSelectExists">Is Existing?</string>
+    <string name="lbCategoryDropdown">Select Category</string>
+    <string name="lbProductDropdown">Select Product</string>
+    <string name="lbHintQuantity">Quantity</string>
+    <string name="lbRequire">Required</string>
+    <string name="lbImportExistingSave">Save</string>
+    <string name="lbHintPrice">Price</string>
+    <string name="lbProviderDropdown">Supplier</string>
+    <string name="lbHintProductName">Product Name</string>
+    <string name="lbChooseImgText">Click to chosse image</string>
 </resources>

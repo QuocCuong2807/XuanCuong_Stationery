@@ -9,4 +9,7 @@
     <color name="textMenuBottom">#808080</color>
     <color name="menuColor">#FBFBF9</color>
     <color name="titleToolBarColor">#fc638f</color>
+    <color name="dashColor">#404040</color>
+    <color name="red">#FF0000</color>
+    <color name="lavender">#E6E6FA</color>
 </resources>

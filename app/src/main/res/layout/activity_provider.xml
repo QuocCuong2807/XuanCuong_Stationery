@@ -22,7 +22,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/menuColor"
             app:title="@string/lbSupplierTitle"
-            app:titleTextColor="@color/titleToolBarColor"></com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextColor="@color/titleToolBarColor" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView

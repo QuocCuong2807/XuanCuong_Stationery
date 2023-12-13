@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ImportActivity"
+    android:background="@color/white1">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dropdownImportProduct"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="2dp"
+        app:boxStrokeColor="@color/lavender"
+        app:boxBackgroundColor="@color/white"
+        android:textColorHint="@color/textMenuBottom"
+        android:hint="@string/lbSelectExists"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.013"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteImportExists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:textColor="@color/black"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/dash_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dropdownImportProduct"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <RelativeLayout
+        android:id="@+id/existingForm"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dropdownCategoryList"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:boxBackgroundColor="@color/white"
+            android:textColorHint="@color/textMenuBottom"
+            app:boxStrokeColor="@color/lavender"
+            android:hint="@string/lbCategoryDropdown"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteCategoryList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dropdownProductList"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:boxBackgroundColor="@color/white"
+            android:textColorHint="@color/textMenuBottom"
+            app:boxStrokeColor="@color/lavender"
+            android:hint="@string/lbProductDropdown"
+            android:layout_below="@id/dropdownCategoryList"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteProductList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInputLayoutQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dropdownProductList"
+            android:layout_margin="16dp"
+            android:hint="@string/lbHintQuantity"
+            app:helperText="@string/lbRequire"
+            app:helperTextTextColor="@color/red"
+            app:boxBackgroundColor="@color/white"
+            android:textColorHint="@color/textMenuBottom"
+            app:boxStrokeColor="@color/lavender"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txInputEdtQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnImportExistingSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_below="@id/txtInputLayoutQuantity"
+            android:text="@string/lbImportExistingSave"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/blue_deep_sky"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewNotExisting"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:scrollbars="vertical"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:id="@+id/notExistingForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.0">
+            
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dropdownNotExistingCategoryList"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:boxBackgroundColor="@color/white"
+                android:textColorHint="@color/textMenuBottom"
+                app:boxStrokeColor="@color/lavender"
+                android:hint="@string/lbCategoryDropdown"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteNotExistingCategoryList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dropdownNotExistingProviderList"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:boxBackgroundColor="@color/white"
+                android:textColorHint="@color/textMenuBottom"
+                app:boxStrokeColor="@color/lavender"
+                android:hint="@string/lbProviderDropdown"
+                android:layout_below="@id/dropdownNotExistingCategoryList"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteNotExistingProviderList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputLayoutNotExistingProductName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dropdownNotExistingProviderList"
+                android:layout_margin="16dp"
+                android:hint="@string/lbHintProductName"
+                app:helperText="@string/lbRequire"
+                app:helperTextTextColor="@color/red"
+                app:boxBackgroundColor="@color/white"
+                android:textColorHint="@color/textMenuBottom"
+                app:boxStrokeColor="@color/lavender"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txInputEdtNotExistingProductName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputLayoutNotExistingQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtInputLayoutNotExistingProductName"
+                android:layout_margin="16dp"
+                android:hint="@string/lbHintQuantity"
+                app:helperText="@string/lbRequire"
+                app:helperTextTextColor="@color/red"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxBackgroundColor="@color/white"
+                android:textColorHint="@color/textMenuBottom"
+                app:boxStrokeColor="@color/lavender"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txInputEdtNotExistingQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInputLayoutNotExistingPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtInputLayoutNotExistingQuantity"
+                android:layout_margin="16dp"
+                android:hint="@string/lbHintPrice"
+                app:helperText="@string/lbRequire"
+                app:helperTextTextColor="@color/red"
+                app:boxBackgroundColor="@color/white"
+                android:textColorHint="@color/textMenuBottom"
+                app:boxStrokeColor="@color/lavender"
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txInputEdtNotExistingPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <ImageView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/imgChoose"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_below="@id/txtInputLayoutNotExistingPrice"
+                android:src="@drawable/book"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:id="@+id/chosseImageNotice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_below="@id/imgChoose"
+                android:textStyle="italic"
+                android:text="@string/lbChooseImgText"
+                android:textColor="@color/black"
+                android:layout_marginTop="12dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"/>
+            <Button
+                android:id="@+id/btnImportNotExistingSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_below="@id/chosseImageNotice"
+                android:text="@string/lbImportExistingSave"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/blue_deep_sky"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
