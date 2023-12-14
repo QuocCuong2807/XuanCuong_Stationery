@@ -7,13 +7,33 @@
     tools:context=".activity.ImportActivity"
     android:background="@color/white1">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/customTopImportBarParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/customTopImportBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/menuColor"
+            app:title="@string/lbCategoryTitle"
+            app:titleTextColor="@color/titleToolBarColor">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dropdownImportProduct"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="64dp"
         app:boxStrokeColor="@color/lavender"
         app:boxBackgroundColor="@color/white"
         android:textColorHint="@color/textMenuBottom"
@@ -43,7 +63,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="18dp"
         android:src="@drawable/dash_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -163,14 +183,13 @@
     <ScrollView
         android:id="@+id/scrollViewNotExisting"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:layout_marginTop="0dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         android:scrollbars="vertical"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <RelativeLayout
             android:id="@+id/notExistingForm"
@@ -182,15 +201,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
             app:layout_constraintVertical_bias="0.0">
-            
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dropdownNotExistingCategoryList"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 app:boxBackgroundColor="@color/white"
                 android:textColorHint="@color/textMenuBottom"

@@ -64,7 +64,6 @@ public class CategoryActivity extends AppCompatActivity {
         categories.add(new Category(4, "Eraser", R.drawable.eraser, 6));
         categories.add(new Category(5, "Office Tools", R.drawable.office_tool, 46));
 
-        //register context menu for list view
         listViewCategory.setAdapter(categoryAdapter);
     }
 
