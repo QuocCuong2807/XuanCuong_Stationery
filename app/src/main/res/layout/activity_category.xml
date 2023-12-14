@@ -20,9 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/menuColor"
-            app:titleTextColor="@color/titleToolBarColor"
-            app:title="@string/lbCategoryTitle">
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:title="@string/lbCategoryTitle"
+            app:titleTextColor="@color/titleToolBarColor"></com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ListView
@@ -43,8 +42,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/gray_E8"
         android:background="@color/white"
+        android:backgroundTint="@color/gray_E8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewCate"
         app:layout_constraintVertical_bias="1.0"
@@ -56,8 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/menuColor"
-            >
+            android:background="@color/menuColor">
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -67,10 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
+            android:backgroundTint="@color/blue_deep_sky"
+            android:elevation="8dp"
             android:src="@drawable/white_plus"
             app:layout_anchor="@+id/customCateBottomBar"
-            android:elevation="8dp"
-            android:backgroundTint="@color/blue_deep_sky"
             app:layout_anchorGravity="center|top" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

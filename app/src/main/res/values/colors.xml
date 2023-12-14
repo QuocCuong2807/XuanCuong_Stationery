@@ -11,5 +11,8 @@
     <color name="titleToolBarColor">#fc638f</color>
     <color name="dashColor">#404040</color>
     <color name="red">#FF0000</color>
+    <color name="crimson">#DC143C</color>
     <color name="lavender">#E6E6FA</color>
+    <color name="chartreuse">#DFFF00</color>
+    <color name="lime_green">#32CD32</color>
 </resources>

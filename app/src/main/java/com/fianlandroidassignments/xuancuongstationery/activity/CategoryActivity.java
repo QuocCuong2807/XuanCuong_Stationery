@@ -3,13 +3,22 @@ package com.fianlandroidassignments.xuancuongstationery.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +37,8 @@ public class CategoryActivity extends AppCompatActivity {
     List<Category> categories;
     MaterialToolbar toolbar;
     FloatingActionButton addNewCateBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +50,8 @@ public class CategoryActivity extends AppCompatActivity {
 
         //set onclick event to add new category button
         addNewCateBtn.setOnClickListener(view -> {
-            Toast.makeText(CategoryActivity.this, "Chức năng thêm mới chưa được phát triển", Toast.LENGTH_LONG).show();
+
+            openAddCategoryDialog(Gravity.CENTER);
         });
 
         registerForContextMenu(listViewCategory);
@@ -91,13 +103,13 @@ public class CategoryActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.context_view)
             Toast.makeText(CategoryActivity.this, "Ban da chon xem o vi tri: "
-                                                         + info.position, Toast.LENGTH_LONG).show();
+                    + info.position, Toast.LENGTH_LONG).show();
         else if (item.getItemId() == R.id.context_delete)
             Toast.makeText(CategoryActivity.this, "Ban da chon delete o vi tri: "
-                                                        + info.position, Toast.LENGTH_LONG).show();
+                    + info.position, Toast.LENGTH_LONG).show();
         else if (item.getItemId() == R.id.context_update)
             Toast.makeText(CategoryActivity.this, "Ban da chon update o vi tri : "
-                                                        + info.position, Toast.LENGTH_LONG).show();
+                    + info.position, Toast.LENGTH_LONG).show();
 
         return super.onContextItemSelected(item);
     }
@@ -122,4 +134,37 @@ public class CategoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void openAddCategoryDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_category);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+        dialog.setCanceledOnTouchOutside(true);
+
+        ImageView imgAddCategory = dialog.findViewById(R.id.imgCategoryAddChoose);
+        EditText edtCategoryName = dialog.findViewById(R.id.edtCategoryNameAdd);
+        Button btnCloseCategoryDialog = dialog.findViewById(R.id.btnCloseCategoryAddDialog);
+        Button btnSaveToAddNewCategory = dialog.findViewById(R.id.btnAddCategoryDialog);
+
+        btnCloseCategoryDialog.setOnClickListener(v -> dialog.dismiss());
+
+        btnSaveToAddNewCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CategoryActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+            }
+        });
+        dialog.show();
+    }
 }

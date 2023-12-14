@@ -3,13 +3,22 @@ package com.fianlandroidassignments.xuancuongstationery.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,7 +49,7 @@ public class ProviderActivity extends AppCompatActivity {
 
         //set onclick event to add new provider button
         addNewProviderBtn.setOnClickListener(view -> {
-            Toast.makeText(ProviderActivity.this, "Chức năng thêm mới chưa được phát triển", Toast.LENGTH_LONG).show();
+            openAddProviderDialog(Gravity.CENTER);
         });
 
         //register context menu for list view
@@ -90,13 +99,13 @@ public class ProviderActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.context_view)
             Toast.makeText(ProviderActivity.this, "Ban da chon xem o vi tri: "
-                                                        + info.position, Toast.LENGTH_LONG).show();
+                    + info.position, Toast.LENGTH_LONG).show();
         else if (item.getItemId() == R.id.context_delete)
             Toast.makeText(ProviderActivity.this, "Ban da chon delete o vi tri: "
-                                                        + info.position, Toast.LENGTH_LONG).show();
+                    + info.position, Toast.LENGTH_LONG).show();
         else if (item.getItemId() == R.id.context_update)
             Toast.makeText(ProviderActivity.this, "Ban da chon update o vi tri : "
-                                                        + info.position, Toast.LENGTH_LONG).show();
+                    + info.position, Toast.LENGTH_LONG).show();
 
         return super.onContextItemSelected(item);
     }
@@ -121,5 +130,39 @@ public class ProviderActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openAddProviderDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_add_provider);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+        dialog.setCanceledOnTouchOutside(true);
+
+        ImageView imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
+        EditText edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
+        Button btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
+        Button btnSaveToAddNewProvider = dialog.findViewById(R.id.btnAddProviderDialog);
+
+        btnCloseProviderDialog.setOnClickListener(v -> dialog.dismiss());
+
+        btnSaveToAddNewProvider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProviderActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+            }
+        });
+        dialog.show();
     }
 }
