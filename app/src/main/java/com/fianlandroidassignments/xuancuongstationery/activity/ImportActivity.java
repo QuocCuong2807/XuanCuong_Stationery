@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImportActivity extends AppCompatActivity {
-    String[] arrExistsStatus = {"Exists", "Not Exists"};
+    private final String[] arrExistsStatus = {"Available", "New product"};
     AutoCompleteTextView autoCompleteTextViewExistsStatus;
     AutoCompleteTextView autoCompleteTextViewExistsCategory;
     AutoCompleteTextView autoCompleteTextViewExistsProduct;
@@ -72,10 +72,10 @@ public class ImportActivity extends AppCompatActivity {
 
         //handle hide/show import view based on status
         autoCompleteTextViewExistsStatus.setOnItemClickListener((parent, view, position, id) -> {
-            if ("Exists".equals(adapterExsItems.getItem(position))) {
+            if ("Available".equals(adapterExsItems.getItem(position))) {
                 relativeLayoutExisting.setVisibility(View.VISIBLE);
                 scrollViewImportProduct.setVisibility(View.INVISIBLE);
-            } else if ("Not Exists".equals(adapterExsItems.getItem(position))) {
+            } else if ("New product".equals(adapterExsItems.getItem(position))) {
                 scrollViewImportProduct.setVisibility(View.VISIBLE);
                 relativeLayoutExisting.setVisibility(View.INVISIBLE);
             }

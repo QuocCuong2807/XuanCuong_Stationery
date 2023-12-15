@@ -15,7 +15,7 @@
     <string name="lbContextDel">Delete</string>
     <string name="lbContextUpdate">Update</string>
     <string name="lbContextView">View more</string>
-    <string name="lbSelectExists">Is Existing?</string>
+    <string name="lbSelectExists">Is Available?</string>
     <string name="lbCategoryDropdown">Select Category</string>
     <string name="lbProductDropdown">Select Product</string>
     <string name="lbHintQuantity">Quantity</string>
@@ -24,11 +24,11 @@
     <string name="lbHintPrice">Price</string>
     <string name="lbProviderDropdown">Supplier</string>
     <string name="lbHintProductName">Product Name</string>
-    <string name="lbChooseImgText">Click on the image to upload</string>
-    <string name="lbCategoryAdd">Add Category</string>
+    <string name="lbChooseImgText">Click to chose image</string>
+    <string name="lbCategoryAdd">Add New Category</string>
     <string name="lbNoticeCategoryAdd">Category Name</string>
     <string name="lbCloseDialog">Close</string>
     <string name="lbAddDialog">Add</string>
-    <string name="lbProviderAdd">Add Provider</string>
+    <string name="lbProviderAdd">Add New Provider</string>
     <string name="lbNoticeProviderAdd">Provider Name</string>
 </resources>

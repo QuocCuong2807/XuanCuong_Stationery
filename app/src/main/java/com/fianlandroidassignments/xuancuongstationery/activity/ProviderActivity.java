@@ -82,6 +82,13 @@ public class ProviderActivity extends AppCompatActivity {
         addNewProviderBtn = findViewById(R.id.addNewProviderButton);
     }
 
+    private void referencesDialogElement(Dialog dialog){
+        ImageView imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
+        EditText edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
+        Button btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
+        Button btnSaveToAddNewProvider = dialog.findViewById(R.id.btnAddProviderDialog);
+    }
+
     //create context menu for listview
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -150,19 +157,43 @@ public class ProviderActivity extends AppCompatActivity {
         window.setAttributes(windowAttributes);
         dialog.setCanceledOnTouchOutside(true);
 
+
         ImageView imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
         EditText edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
         Button btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
         Button btnSaveToAddNewProvider = dialog.findViewById(R.id.btnAddProviderDialog);
 
+        //close dialog
         btnCloseProviderDialog.setOnClickListener(v -> dialog.dismiss());
 
-        btnSaveToAddNewProvider.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ProviderActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
-            }
+        //insert new provider
+        btnSaveToAddNewProvider.setOnClickListener(view -> {
+
+            addNewProvider(imgAddProvider,edtProviderName);
+
+            Toast.makeText(ProviderActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
         });
+
+        //add new provider
+        //addNewProvider(btnSaveToAddNewProvider,imgAddProvider,edtProviderName);
+
         dialog.show();
     }
+
+
+    //insert new provider function (is used in "open dialog" function when dialog open and click on add button)
+    private void addNewProvider(ImageView imgView, EditText providerName){
+
+        //get image from gallery by onclick event
+        imgView.setOnClickListener(view ->{
+
+        });
+
+        //get provider name
+        providerName.getText();
+
+        //save...
+
+    }
+
 }

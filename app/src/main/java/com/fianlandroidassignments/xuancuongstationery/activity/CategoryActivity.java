@@ -162,9 +162,25 @@ public class CategoryActivity extends AppCompatActivity {
         btnSaveToAddNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addNewCategory(imgAddCategory, edtCategoryName);
                 Toast.makeText(CategoryActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
             }
         });
         dialog.show();
     }
+
+    private void addNewCategory(ImageView imgView, EditText categoryName){
+
+        //get image from gallery by onclick event
+        imgView.setOnClickListener(view ->{
+
+        });
+
+        //get provider name
+        categoryName.getText();
+
+        //save...
+
+    }
+
 }
