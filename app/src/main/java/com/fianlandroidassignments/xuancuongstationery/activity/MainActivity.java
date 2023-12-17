@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
 import com.fianlandroidassignments.xuancuongstationery.fragment.BillFragment;
 import com.fianlandroidassignments.xuancuongstationery.fragment.HomeFragment;
 import com.fianlandroidassignments.xuancuongstationery.R;
@@ -21,10 +23,15 @@ import com.google.android.material.appbar.MaterialToolbar;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     MaterialToolbar toolbar;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.close();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 

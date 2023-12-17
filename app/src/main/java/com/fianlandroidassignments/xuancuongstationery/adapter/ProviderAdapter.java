@@ -1,6 +1,8 @@
 package com.fianlandroidassignments.xuancuongstationery.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.dto.Category;
 import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
@@ -17,9 +20,11 @@ import java.util.List;
 public class ProviderAdapter extends BaseAdapter {
 
     Context context;
-    List<Provider> providerList;
 
-    public ProviderAdapter(Context context, List<Provider> providerList) {
+
+    List<ProviderDTO> providerList;
+
+    public ProviderAdapter(Context context, List<ProviderDTO> providerList) {
         this.context = context;
         this.providerList = providerList;
     }
@@ -46,12 +51,14 @@ public class ProviderAdapter extends BaseAdapter {
 
         if(convertView == null)
             convertView = LayoutInflater.from(context).inflate(R.layout.list_provider, parent, false);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(providerList.get(position).getImage(),
+                                            0,providerList.get(position).getImage().length);
 
         ShapeableImageView providerImage = convertView.findViewById(R.id.listProviderImage);
         TextView providerName = convertView.findViewById(R.id.listProviderName);
 
-        providerImage.setImageResource(providerList.get(position).getImage());
-        providerName.setText("Npp: " + providerList.get(position).getName());
+        providerImage.setImageBitmap(bitmap);
+        providerName.setText(providerList.get(position).getName());
 
         return convertView;
     }

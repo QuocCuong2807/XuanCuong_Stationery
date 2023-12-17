@@ -1,12 +1,24 @@
 package com.fianlandroidassignments.xuancuongstationery.activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
@@ -22,38 +34,57 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ProviderAdapter;
+import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
 import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderActivity extends AppCompatActivity {
 
     ListView providerListView;
-    List<Provider> providers;
+    List<ProviderDTO> providers;
     MaterialToolbar toolbar;
     FloatingActionButton addNewProviderBtn;
+    ImageView imgAddProvider;
+    EditText edtProviderName;
+    Button btnCloseProviderDialog;
+    Button btnSaveToAddNewProvider;
+    ActivityResultLauncher<Intent> resultLauncher;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_provider);
 
+        //initialization DatabaseHelper object
+        databaseHelper = new DatabaseHelper(ProviderActivity.this);
+
         references();
         displayListView();
         manipulateToolbar();
+
 
         //set onclick event to add new provider button
         addNewProviderBtn.setOnClickListener(view -> {
             openAddProviderDialog(Gravity.CENTER);
         });
 
+        //display image from gallery to dialog's ImageView
+        displayImageForImageView();
+
         //register context menu for list view
         registerForContextMenu(providerListView);
+
+
     }
 
     //set toolbar to action bar
@@ -65,13 +96,18 @@ public class ProviderActivity extends AppCompatActivity {
 
     //display data to listview
     private void displayListView() {
-        providers = new ArrayList<>();
+
+        try {
+            providers = databaseHelper.selectAllCategory();
+        }
+        //handle exception when providers is null
+        catch (Exception e){
+            providers = new ArrayList<>();
+            providers.add(new ProviderDTO(1, "Hiện chưa có sản phẩm"));
+        }
+
         ProviderAdapter providerAdapter = new ProviderAdapter(this, providers);
 
-        providers.add(new Provider(1, "Thiên Long Hoàn Cầu", R.drawable.tlhc));
-        providers.add(new Provider(2, "Công ty Mai Son", R.drawable.maison));
-        providers.add(new Provider(3, "Công ty VPP Hồng Hà", R.drawable.hongha));
-        providers.add(new Provider(4, "Văn phòng phẩm Artline", R.drawable.artline));
 
         providerListView.setAdapter(providerAdapter);
     }
@@ -83,10 +119,10 @@ public class ProviderActivity extends AppCompatActivity {
     }
 
     private void referencesDialogElement(Dialog dialog){
-        ImageView imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
-        EditText edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
-        Button btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
-        Button btnSaveToAddNewProvider = dialog.findViewById(R.id.btnAddProviderDialog);
+        imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
+        edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
+        btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
+        btnSaveToAddNewProvider = dialog.findViewById(R.id.btnAddProviderDialog);
     }
 
     //create context menu for listview
@@ -107,9 +143,19 @@ public class ProviderActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.context_view)
             Toast.makeText(ProviderActivity.this, "Ban da chon xem o vi tri: "
                     + info.position, Toast.LENGTH_LONG).show();
-        else if (item.getItemId() == R.id.context_delete)
-            Toast.makeText(ProviderActivity.this, "Ban da chon delete o vi tri: "
-                    + info.position, Toast.LENGTH_LONG).show();
+        else if (item.getItemId() == R.id.context_delete){
+
+            long numOfRow = databaseHelper.deleteProvider(providers.get(info.position).getId());
+            if (numOfRow > 0)
+                Toast.makeText(ProviderActivity.this, "success "
+                        + info.position, Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(ProviderActivity.this, "false "
+                        + info.position, Toast.LENGTH_LONG).show();
+            displayListView();
+        }
+
+
         else if (item.getItemId() == R.id.context_update)
             Toast.makeText(ProviderActivity.this, "Ban da chon update o vi tri : "
                     + info.position, Toast.LENGTH_LONG).show();
@@ -140,6 +186,7 @@ public class ProviderActivity extends AppCompatActivity {
     }
 
     private void openAddProviderDialog(int gravity) {
+
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_add_provider);
@@ -157,21 +204,20 @@ public class ProviderActivity extends AppCompatActivity {
         window.setAttributes(windowAttributes);
         dialog.setCanceledOnTouchOutside(true);
 
+        //references dialog view object
+        referencesDialogElement(dialog);
 
-        ImageView imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
-        EditText edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
-        Button btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
-        Button btnSaveToAddNewProvider = dialog.findViewById(R.id.btnAddProviderDialog);
 
         //close dialog
         btnCloseProviderDialog.setOnClickListener(v -> dialog.dismiss());
 
+        //open gallery to pick image
+        imgAddProvider.setOnClickListener(view -> pickImage());
+
         //insert new provider
         btnSaveToAddNewProvider.setOnClickListener(view -> {
-
             addNewProvider(imgAddProvider,edtProviderName);
-
-            Toast.makeText(ProviderActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+            dialog.dismiss();
         });
 
         //add new provider
@@ -184,16 +230,49 @@ public class ProviderActivity extends AppCompatActivity {
     //insert new provider function (is used in "open dialog" function when dialog open and click on add button)
     private void addNewProvider(ImageView imgView, EditText providerName){
 
-        //get image from gallery by onclick event
-        imgView.setOnClickListener(view ->{
+        ProviderDTO providerDTO = new ProviderDTO(providerName.getText().toString(), imageViewToByteArray(imgView));
+        databaseHelper = new DatabaseHelper(ProviderActivity.this);
 
-        });
+        //return new product id
+        long newProductId = databaseHelper.insertNewProvider(providerDTO);
 
-        //get provider name
-        providerName.getText();
+        if (newProductId != -1){
+            Toast.makeText(ProviderActivity.this, "insert success", Toast.LENGTH_LONG).show();
+            displayListView();
+        }
+        else
+            Toast.makeText(ProviderActivity.this, "Something wrong!!!", Toast.LENGTH_LONG).show();
 
-        //save...
+    }
 
+    //pick image from gallery
+    private void pickImage(){
+        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        resultLauncher.launch(intent);
+    }
+
+    //display image to ImageView
+    private void displayImageForImageView(){
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>(){
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        try{
+                            Uri uri = o.getData().getData();
+                            imgAddProvider.setImageURI(uri);
+                        }catch (Exception e){
+                            Toast.makeText(ProviderActivity.this, "no image was selected",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private byte[] imageViewToByteArray(ImageView imageView){
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream);
+        return outputStream.toByteArray();
     }
 
 }
