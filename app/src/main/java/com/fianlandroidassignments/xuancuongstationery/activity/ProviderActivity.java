@@ -54,7 +54,7 @@ public class ProviderActivity extends AppCompatActivity {
     EditText edtProviderName, edtProviderEditName;
     Button btnCloseProviderDialog, btnCloseEditProviderDialog;
     Button btnSaveToAddNewProvider, btnSaveToEditProvider;
-    ActivityResultLauncher<Intent> resultLauncher;
+    ActivityResultLauncher<Intent> resultLauncher, resultLauncherEdit;
     DatabaseHelper databaseHelper;
 
     @Override
@@ -211,7 +211,7 @@ public class ProviderActivity extends AppCompatActivity {
         btnCloseProviderDialog.setOnClickListener(v -> dialog.dismiss());
 
         //open gallery to pick image
-        imgAddProvider.setOnClickListener(view -> pickImage());
+        imgAddProvider.setOnClickListener(view -> pickImageForAdd());
 
         //insert new provider
         btnSaveToAddNewProvider.setOnClickListener(view -> {
@@ -257,7 +257,7 @@ public class ProviderActivity extends AppCompatActivity {
         btnCloseEditProviderDialog.setOnClickListener(v -> dialog.dismiss());
 
         //open gallery to pick image
-        imgEditProvider.setOnClickListener(view -> pickImage());
+        imgEditProvider.setOnClickListener(view -> pickImageForEdit());
 
         //insert new provider
         btnSaveToEditProvider.setOnClickListener(view -> {
@@ -308,11 +308,15 @@ public class ProviderActivity extends AppCompatActivity {
     }
 
     //pick image from gallery
-    private void pickImage(){
+    private void pickImageForAdd(){
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
     }
 
+    private void pickImageForEdit(){
+        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        resultLauncherEdit.launch(intent);
+    }
     //display image to ImageView
     private void displayImageForAddImageView(){
         resultLauncher = registerForActivityResult(
@@ -332,7 +336,7 @@ public class ProviderActivity extends AppCompatActivity {
 
     //display image from gallery to image view in edit dialog
     private void displayImageForEditImageView(){
-        resultLauncher = registerForActivityResult(
+        resultLauncherEdit = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>(){
                     @Override

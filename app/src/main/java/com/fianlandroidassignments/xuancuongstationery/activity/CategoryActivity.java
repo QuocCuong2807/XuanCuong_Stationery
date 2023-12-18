@@ -55,7 +55,7 @@ public class CategoryActivity extends AppCompatActivity {
     ImageView imgAddCategory, imgEditCategory;
     EditText edtCategoryName, edtEditCategoryName;
     Button btnCloseCategoryDialog, btnSaveToAddNewCategory, btnCloseEditCategoryDialog, btnSaveToEditCategory;
-    ActivityResultLauncher<Intent> resultLauncher;
+    ActivityResultLauncher<Intent> resultLauncher, resultLauncherEdit;
     DatabaseHelper databaseHelper;
 
     @Override
@@ -74,10 +74,11 @@ public class CategoryActivity extends AppCompatActivity {
             openAddCategoryDialog(Gravity.CENTER);
         });
 
-        displayImageForImageView();
-        displayImageForEditImageView();
+
         registerForContextMenu(listViewCategory);
 
+        displayImageForImageView();
+        displayImageForEditImageView();
     }
 
     //set toolbar to action bar
@@ -187,7 +188,7 @@ public class CategoryActivity extends AppCompatActivity {
         btnCloseCategoryDialog.setOnClickListener(v -> dialog.dismiss());
 
         //set image from gallery to imageview
-        imgAddCategory.setOnClickListener(view -> pickImage());
+        imgAddCategory.setOnClickListener(view -> pickImageForAdd());
 
         btnSaveToAddNewCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +229,7 @@ public class CategoryActivity extends AppCompatActivity {
         btnCloseEditCategoryDialog.setOnClickListener(v -> dialog.dismiss());
 
         //open gallery to pick image
-        imgEditCategory.setOnClickListener(view -> pickImage());
+        imgEditCategory.setOnClickListener(view -> pickImageForEdit());
 
         //insert new provider
         btnSaveToEditCategory.setOnClickListener(view -> {
@@ -248,9 +249,14 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
-    private void pickImage() {
+    private void pickImageForAdd() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
+    }
+
+    private void pickImageForEdit(){
+        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        resultLauncherEdit.launch(intent);
     }
 
     private void displayImageForImageView(){
@@ -270,7 +276,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void displayImageForEditImageView(){
-        resultLauncher = registerForActivityResult(
+        resultLauncherEdit = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>(){
                     @Override
