@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+                                    /* MANIPULATE WITH PROVIDER TABLE*/
+
+    //insert new record in provider table
     public long insertNewProvider(ProviderDTO providerDTO){
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -50,12 +54,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sqLiteDatabase.insert(ProviderTable.TABLE_NAME, null, contentValues);
     }
 
-    public List<ProviderDTO> selectAllCategory(){
+    //get all record in provider table
+    public List<ProviderDTO> selectAllProvider(){
         List<ProviderDTO> providerList = new ArrayList<>();
-        String sql = "SELECT * FROM " + ProviderTable.TABLE_NAME;
+
         sqLiteDatabase = this.getReadableDatabase();
 
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        Cursor cursor = sqLiteDatabase.rawQuery(ProviderTable.SELECT_ALL_QUERY, null);
 
         if (cursor.moveToFirst()){
             do {
@@ -71,10 +76,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return providerList;
     }
 
+    //delete 1 record in provider table by id
     public long deleteProvider(int provider_id){
         sqLiteDatabase = this.getWritableDatabase();
         long result = sqLiteDatabase.delete(ProviderTable.TABLE_NAME,
                 ProviderTable.PROVIDER_ID + " = ? ", new String[]{String.valueOf(provider_id)});
         return result;
+    }
+
+    //update 1 record in provider table
+    public int updateProvider(int oldId, ProviderDTO newValues){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ProviderTable.PROVIDER_NAME, newValues.getName());
+        contentValues.put(ProviderTable.PROVIDER_IMAGE, newValues.getImage());
+
+        int numOfRowAffected = sqLiteDatabase.update(ProviderTable.TABLE_NAME, contentValues,
+                    ProviderTable.PROVIDER_ID+ " = ? ", new String[]{String.valueOf(oldId)});
+
+        return numOfRowAffected;
+    }
+
+                                    /* MANIPULATE WITH CATEGORY TABLE*/
+
+    //insert new record in category table
+    public long insertNewCategory(CategoryDTO categoryDTO){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(CategoryTable.CATEGORY_NAME, categoryDTO.getCategory_name());
+        contentValues.put(CategoryTable.CATEGORY_IMAGE, categoryDTO.getImage());
+
+        return sqLiteDatabase.insert(CategoryTable.TABLE_NAME, null, contentValues);
+    }
+
+    //get all record in category table include product quantity
+    public List<CategoryDTO> selectAllCategory(){
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        sqLiteDatabase = getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(CategoryTable.SELECT_ALL_WITH_QUANTITY,null);
+
+        if (cursor.moveToFirst()){
+            do {
+
+                int category_id = cursor.getInt(0);
+                String category_name = cursor.getString(1);
+                byte [] category_image = cursor.getBlob(2);
+                int product_quantity = cursor.getInt(3);
+
+                categoryDTOList.add(new CategoryDTO(category_id, category_name, category_image, product_quantity));
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return categoryDTOList;
+    }
+
+    //delete 1 record in category table by id
+    public long deleteCategory(int category_id){
+        sqLiteDatabase = this.getWritableDatabase();
+        long result = sqLiteDatabase.delete(CategoryTable.TABLE_NAME,
+                CategoryTable.CATEGORY_ID + " = ? ", new String[]{String.valueOf(category_id)});
+        return result;
+    }
+
+    //update 1 record in provider table
+    public int updateCategory(int oldId, CategoryDTO newValues){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(CategoryTable.CATEGORY_NAME, newValues.getCategory_name());
+        contentValues.put(CategoryTable.CATEGORY_IMAGE, newValues.getImage());
+
+        int numOfRowAffected = sqLiteDatabase.update(CategoryTable.TABLE_NAME, contentValues,
+                CategoryTable.CATEGORY_ID+ " = ? ", new String[]{String.valueOf(oldId)});
+
+        return numOfRowAffected;
     }
 }

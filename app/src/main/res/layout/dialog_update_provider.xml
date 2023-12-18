@@ -9,11 +9,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_deep_sky_corner_16_top_left_top_right"
+        android:background="@drawable/bg_yellow_corner_16_top_left_right"
         android:gravity="center"
         android:padding="12dp"
-        android:text="@string/lbProviderAdd"
-        android:textColor="@color/chartreuse"
+        android:text="@string/lbProviderEdit"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -24,7 +24,7 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/imgProviderAddChoose"
+            android:id="@+id/imgProviderEditChoose"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginEnd="12dp"
@@ -32,7 +32,7 @@
             android:src="@drawable/gallery" />
 
         <EditText
-            android:id="@+id/edtProviderNameAdd"
+            android:id="@+id/edtProviderNameEdit"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -67,7 +67,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnCloseProviderAddDialog"
+                android:id="@+id/btnCloseProviderEditDialog"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -79,13 +79,13 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btnAddProviderDialog"
+                android:id="@+id/btnEditProviderDialog"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:alpha="0.8"
                 android:backgroundTint="@color/lime_green"
-                android:text="@string/lbAddDialog"
+                android:text="@string/lbEditDialog"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>

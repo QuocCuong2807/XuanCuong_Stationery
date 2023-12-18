@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.fianlandroidassignments.xuancuongstationery.Common.Common;
 import com.fianlandroidassignments.xuancuongstationery.R;
-import com.fianlandroidassignments.xuancuongstationery.dto.Category;
-import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -20,8 +19,6 @@ import java.util.List;
 public class ProviderAdapter extends BaseAdapter {
 
     Context context;
-
-
     List<ProviderDTO> providerList;
 
     public ProviderAdapter(Context context, List<ProviderDTO> providerList) {
@@ -51,8 +48,8 @@ public class ProviderAdapter extends BaseAdapter {
 
         if(convertView == null)
             convertView = LayoutInflater.from(context).inflate(R.layout.list_provider, parent, false);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(providerList.get(position).getImage(),
-                                            0,providerList.get(position).getImage().length);
+
+        Bitmap bitmap = Common.getBitmapFromByteArray(providerList.get(position).getImage());
 
         ShapeableImageView providerImage = convertView.findViewById(R.id.listProviderImage);
         TextView providerName = convertView.findViewById(R.id.listProviderName);

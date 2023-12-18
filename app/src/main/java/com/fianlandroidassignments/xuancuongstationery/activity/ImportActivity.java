@@ -17,8 +17,10 @@ import android.widget.Toast;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayCategoryAdapter;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayProviderAdapter;
+import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
 import com.fianlandroidassignments.xuancuongstationery.dto.Category;
-import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
+import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -40,7 +42,8 @@ public class ImportActivity extends AppCompatActivity {
     Button buttonNotExistsSave;
 
     List<Category> categories;
-    List<Provider> providers;
+    List<CategoryDTO> categoryDTOList;
+    List<ProviderDTO> providers;
     ArrayAdapter<String> adapterExsItems;
     ArrayCategoryAdapter arrayCategoryAdapter;
     ArrayProviderAdapter arrayProviderAdapter;
@@ -51,10 +54,14 @@ public class ImportActivity extends AppCompatActivity {
 
     MaterialToolbar toolbar;
 
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import);
+
+        databaseHelper = new DatabaseHelper(ImportActivity.this);
 
         fillCategories();
 
@@ -81,10 +88,11 @@ public class ImportActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     private void setAdapterForAutoCompleteTextView(){
-        arrayCategoryAdapter = new ArrayCategoryAdapter(this, categories);
+        arrayCategoryAdapter = new ArrayCategoryAdapter(this, categoryDTOList);
         arrayProviderAdapter = new ArrayProviderAdapter(this, providers);
         autoCompleteTextViewNotExistsCategory.setAdapter(arrayCategoryAdapter);
         autoCompleteTextViewExistsCategory.setAdapter(arrayCategoryAdapter);
@@ -96,6 +104,9 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     private void fillCategories(){
+
+        categoryDTOList = databaseHelper.selectAllCategory();
+
         categories  = new ArrayList<>();;
         categories.add(new Category(1, "Book", R.drawable.book, 50));
         categories.add(new Category(2, "Pen", R.drawable.pen, 29));
@@ -105,11 +116,8 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     private void fillProviders(){
-        providers = new ArrayList<>();
-        providers.add(new Provider(1, "Thiên Long Hoàn Cầu", R.drawable.tlhc));
-        providers.add(new Provider(2, "Công ty Mai Son", R.drawable.maison));
-        providers.add(new Provider(3, "Công ty VPP Hồng Hà", R.drawable.hongha));
-        providers.add(new Provider(4, "Văn phòng phẩm Artline", R.drawable.artline));
+        providers = databaseHelper.selectAllProvider();
+
     }
     private void reference() {
         autoCompleteTextViewExistsStatus = findViewById(R.id.autoCompleteImportExists);

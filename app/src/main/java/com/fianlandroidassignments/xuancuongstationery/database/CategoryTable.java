@@ -11,4 +11,13 @@ public class CategoryTable {
                     CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     CATEGORY_NAME + " TEXT, " +
                     CATEGORY_IMAGE + " BLOB)";
+
+    public static final String SELECT_ALL_WITH_QUANTITY =
+            "SELECT  c." + CATEGORY_ID + ", c." + CATEGORY_NAME
+            + ", c." + CATEGORY_IMAGE
+            +", IFNULL( SUM(p."+ProductTable.PRODUCT_QUANTITY+"), 0)"
+            + " FROM " + TABLE_NAME + " c "
+            + " LEFT JOIN " + ProductTable.TABLE_NAME + " p "
+            + " ON c." + CATEGORY_ID + " = " + "p." + ProductTable.CATEGORY_ID
+            +" GROUP BY c."+ CATEGORY_ID;
 }

@@ -13,15 +13,17 @@ import androidx.annotation.Nullable;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.dto.Category;
+import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayCategoryAdapter extends ArrayAdapter<Category> {
-    private List<Category> categoryListFull;
-    public ArrayCategoryAdapter(@NonNull Context context, @NonNull List<Category> categoryList) {
+public class ArrayCategoryAdapter extends ArrayAdapter<CategoryDTO> {
+    private List<CategoryDTO> categoryListFull;
+    public ArrayCategoryAdapter(@NonNull Context context,  @NonNull List<CategoryDTO> categoryList) {
         super(context, 0, categoryList);
-        categoryListFull = new ArrayList<>(categoryList);
+        this.categoryListFull = categoryList;
     }
 
     @NonNull
@@ -38,9 +40,9 @@ public class ArrayCategoryAdapter extends ArrayAdapter<Category> {
         }
 
         TextView textView = convertView.findViewById(R.id.listItemId);
-        Category categoryItem = getItem(position);
+        CategoryDTO categoryItem = getItem(position);
         if (categoryItem != null) {
-            textView.setText(categoryItem.getCategoryName());
+            textView.setText(categoryItem.getCategory_name());
         }
 
         return convertView;
@@ -50,15 +52,15 @@ public class ArrayCategoryAdapter extends ArrayAdapter<Category> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            List<Category> suggestions = new ArrayList<>();
+            List<CategoryDTO> suggestions = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 suggestions.addAll(categoryListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Category item : categoryListFull) {
-                    if (item.getCategoryName().toLowerCase().contains(filterPattern)) {
+                for (CategoryDTO item : categoryListFull) {
+                    if (item.getCategory_name().toLowerCase().contains(filterPattern)) {
                         suggestions.add(item);
                     }
                 }
@@ -78,7 +80,7 @@ public class ArrayCategoryAdapter extends ArrayAdapter<Category> {
 
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            return ((Category) resultValue).getCategoryName();
+            return ((CategoryDTO) resultValue).getCategory_name();
         }
     };
 }

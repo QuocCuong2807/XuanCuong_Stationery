@@ -11,4 +11,6 @@ public class ProviderTable {
                     PROVIDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     PROVIDER_NAME + " TEXT, " +
                     PROVIDER_IMAGE + " BLOB)";
+
+    public static final String SELECT_ALL_QUERY = "SELECT * FROM " + TABLE_NAME;
 }

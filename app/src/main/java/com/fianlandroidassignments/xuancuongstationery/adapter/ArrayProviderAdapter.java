@@ -12,16 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
-import com.fianlandroidassignments.xuancuongstationery.dto.Category;
-import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayProviderAdapter extends ArrayAdapter<Provider> {
-    private List<Provider> providerList;
+public class ArrayProviderAdapter extends ArrayAdapter<ProviderDTO> {
+    private List<ProviderDTO> providerList;
 
-    public ArrayProviderAdapter(@NonNull Context context,  @NonNull List<Provider> providerList) {
+    public ArrayProviderAdapter(@NonNull Context context,  @NonNull List<ProviderDTO> providerList) {
         super(context, 0, providerList);
         this.providerList = providerList;
     }
@@ -40,7 +39,7 @@ public class ArrayProviderAdapter extends ArrayAdapter<Provider> {
         }
 
         TextView textView = convertView.findViewById(R.id.listItemId);
-        Provider providerItem = getItem(position);
+        ProviderDTO providerItem = getItem(position);
         if (providerItem != null) {
             textView.setText(providerItem.getName());
         }
@@ -52,14 +51,14 @@ public class ArrayProviderAdapter extends ArrayAdapter<Provider> {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            List<Provider> suggestions = new ArrayList<>();
+            List<ProviderDTO> suggestions = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
                 suggestions.addAll(providerList);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (Provider item : providerList) {
+                for (ProviderDTO item : providerList) {
                     if (item.getName().toLowerCase().contains(filterPattern)) {
                         suggestions.add(item);
                     }
@@ -80,7 +79,7 @@ public class ArrayProviderAdapter extends ArrayAdapter<Provider> {
 
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            return ((Provider) resultValue).getName();
+            return ((ProviderDTO) resultValue).getName();
         }
     };
 

@@ -31,4 +31,6 @@
     <string name="lbAddDialog">Add</string>
     <string name="lbProviderAdd">Add New Provider</string>
     <string name="lbNoticeProviderAdd">Provider Name</string>
+    <string name="lbProviderEdit">Edit Provider Information</string>
+    <string name="lbEditDialog">Edit</string>
 </resources>

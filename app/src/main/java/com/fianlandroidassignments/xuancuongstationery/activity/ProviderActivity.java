@@ -3,16 +3,14 @@ package com.fianlandroidassignments.xuancuongstationery.activity;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -35,16 +33,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.fianlandroidassignments.xuancuongstationery.Common.Common;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ProviderAdapter;
 import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
-import com.fianlandroidassignments.xuancuongstationery.dto.Provider;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProviderActivity extends AppCompatActivity {
@@ -53,10 +50,10 @@ public class ProviderActivity extends AppCompatActivity {
     List<ProviderDTO> providers;
     MaterialToolbar toolbar;
     FloatingActionButton addNewProviderBtn;
-    ImageView imgAddProvider;
-    EditText edtProviderName;
-    Button btnCloseProviderDialog;
-    Button btnSaveToAddNewProvider;
+    ImageView imgAddProvider, imgEditProvider;
+    EditText edtProviderName, edtProviderEditName;
+    Button btnCloseProviderDialog, btnCloseEditProviderDialog;
+    Button btnSaveToAddNewProvider, btnSaveToEditProvider;
     ActivityResultLauncher<Intent> resultLauncher;
     DatabaseHelper databaseHelper;
 
@@ -79,7 +76,8 @@ public class ProviderActivity extends AppCompatActivity {
         });
 
         //display image from gallery to dialog's ImageView
-        displayImageForImageView();
+        displayImageForAddImageView();
+        displayImageForEditImageView();
 
         //register context menu for list view
         registerForContextMenu(providerListView);
@@ -97,18 +95,11 @@ public class ProviderActivity extends AppCompatActivity {
     //display data to listview
     private void displayListView() {
 
-        try {
-            providers = databaseHelper.selectAllCategory();
-        }
-        //handle exception when providers is null
-        catch (Exception e){
-            providers = new ArrayList<>();
-            providers.add(new ProviderDTO(1, "Hiện chưa có sản phẩm"));
-        }
+        //get all provider
+        providers = databaseHelper.selectAllProvider();
 
+        //initialize provider adapter and set adapter to listview
         ProviderAdapter providerAdapter = new ProviderAdapter(this, providers);
-
-
         providerListView.setAdapter(providerAdapter);
     }
 
@@ -118,7 +109,14 @@ public class ProviderActivity extends AppCompatActivity {
         addNewProviderBtn = findViewById(R.id.addNewProviderButton);
     }
 
-    private void referencesDialogElement(Dialog dialog){
+    private void referencesEditDialogElement(Dialog dialog){
+        imgEditProvider = dialog.findViewById(R.id.imgProviderEditChoose);
+        edtProviderEditName = dialog.findViewById(R.id.edtProviderNameEdit);
+        btnCloseEditProviderDialog = dialog.findViewById(R.id.btnCloseProviderEditDialog);
+        btnSaveToEditProvider = dialog.findViewById(R.id.btnEditProviderDialog);
+    }
+
+    private void referencesAddDialogElement(Dialog dialog){
         imgAddProvider = dialog.findViewById(R.id.imgProviderAddChoose);
         edtProviderName = dialog.findViewById(R.id.edtProviderNameAdd);
         btnCloseProviderDialog = dialog.findViewById(R.id.btnCloseProviderAddDialog);
@@ -140,12 +138,15 @@ public class ProviderActivity extends AppCompatActivity {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
+        //get provider object by list index
+        ProviderDTO providerDTO = providers.get(info.position);
+
         if (item.getItemId() == R.id.context_view)
             Toast.makeText(ProviderActivity.this, "Ban da chon xem o vi tri: "
                     + info.position, Toast.LENGTH_LONG).show();
         else if (item.getItemId() == R.id.context_delete){
 
-            long numOfRow = databaseHelper.deleteProvider(providers.get(info.position).getId());
+            long numOfRow = databaseHelper.deleteProvider(providerDTO.getId());
             if (numOfRow > 0)
                 Toast.makeText(ProviderActivity.this, "success "
                         + info.position, Toast.LENGTH_LONG).show();
@@ -154,14 +155,12 @@ public class ProviderActivity extends AppCompatActivity {
                         + info.position, Toast.LENGTH_LONG).show();
             displayListView();
         }
-
-
         else if (item.getItemId() == R.id.context_update)
-            Toast.makeText(ProviderActivity.this, "Ban da chon update o vi tri : "
-                    + info.position, Toast.LENGTH_LONG).show();
+            openEditDialog(Gravity.CENTER, providerDTO);
 
         return super.onContextItemSelected(item);
     }
+
 
 
     //create topbar menu
@@ -205,7 +204,7 @@ public class ProviderActivity extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(true);
 
         //references dialog view object
-        referencesDialogElement(dialog);
+        referencesAddDialogElement(dialog);
 
 
         //close dialog
@@ -216,21 +215,70 @@ public class ProviderActivity extends AppCompatActivity {
 
         //insert new provider
         btnSaveToAddNewProvider.setOnClickListener(view -> {
+            if (edtProviderName.getText().toString() == null || edtProviderName.getText().toString().trim().equals(""))
+            {
+                Toast.makeText(ProviderActivity.this,"Vui long nhap day du thong tin",Toast.LENGTH_LONG).show();
+                return;
+            }
             addNewProvider(imgAddProvider,edtProviderName);
             dialog.dismiss();
         });
 
-        //add new provider
-        //addNewProvider(btnSaveToAddNewProvider,imgAddProvider,edtProviderName);
 
         dialog.show();
     }
 
 
+    private void openEditDialog(int gravity, ProviderDTO providerDTO) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_update_provider);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+        dialog.setCanceledOnTouchOutside(true);
+
+        //references dialog view object
+        referencesEditDialogElement(dialog);
+
+        edtProviderEditName.setText(providerDTO.getName());
+        imgEditProvider.setImageBitmap(Common.getBitmapFromByteArray(providerDTO.getImage()));
+
+        //close dialog
+        btnCloseEditProviderDialog.setOnClickListener(v -> dialog.dismiss());
+
+        //open gallery to pick image
+        imgEditProvider.setOnClickListener(view -> pickImage());
+
+        //insert new provider
+        btnSaveToEditProvider.setOnClickListener(view -> {
+            if (edtProviderEditName.getText().toString() == null ||
+                                        edtProviderEditName.getText().toString().trim().equals(""))
+            {
+                Toast.makeText(ProviderActivity.this,"Vui long nhap day du thong tin",Toast.LENGTH_LONG).show();
+                return;
+            }
+            editExistingProvider(providerDTO.getId(),imgEditProvider, edtProviderEditName);
+            dialog.dismiss();
+        });
+
+
+        dialog.show();
+    }
+
     //insert new provider function (is used in "open dialog" function when dialog open and click on add button)
     private void addNewProvider(ImageView imgView, EditText providerName){
 
-        ProviderDTO providerDTO = new ProviderDTO(providerName.getText().toString(), imageViewToByteArray(imgView));
+        ProviderDTO providerDTO = new ProviderDTO(providerName.getText().toString(), Common.convertImageViewToByteArray(imgView));
         databaseHelper = new DatabaseHelper(ProviderActivity.this);
 
         //return new product id
@@ -245,6 +293,20 @@ public class ProviderActivity extends AppCompatActivity {
 
     }
 
+    //edit existing provider function (is used in "open edit dialog" function when dialog open and click on edit button)
+    private void editExistingProvider(int oldId, ImageView newImageView, EditText newEditText){
+        ProviderDTO newProvider =
+                new ProviderDTO(newEditText.getText().toString(), Common.convertImageViewToByteArray(newImageView));
+
+        int numOfRowAffected = databaseHelper.updateProvider(oldId, newProvider);
+
+        if (numOfRowAffected > 0){
+            Toast.makeText(ProviderActivity.this, "edit success", Toast.LENGTH_LONG).show();
+            displayListView();
+        }else
+            Toast.makeText(ProviderActivity.this, "Something wrong!!!", Toast.LENGTH_LONG).show();
+    }
+
     //pick image from gallery
     private void pickImage(){
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
@@ -252,7 +314,7 @@ public class ProviderActivity extends AppCompatActivity {
     }
 
     //display image to ImageView
-    private void displayImageForImageView(){
+    private void displayImageForAddImageView(){
         resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>(){
@@ -268,11 +330,21 @@ public class ProviderActivity extends AppCompatActivity {
                 });
     }
 
-    private byte[] imageViewToByteArray(ImageView imageView){
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, outputStream);
-        return outputStream.toByteArray();
+    //display image from gallery to image view in edit dialog
+    private void displayImageForEditImageView(){
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>(){
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        try{
+                            Uri uri = o.getData().getData();
+                            imgEditProvider.setImageURI(uri);
+                        }catch (Exception e){
+                            Toast.makeText(ProviderActivity.this, "no image was selected",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
     }
 
 }
