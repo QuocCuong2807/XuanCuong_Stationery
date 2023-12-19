@@ -59,36 +59,88 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ListView
-        android:id="@+id/listViewSell"
+    <RelativeLayout
+        android:id="@+id/sellForm"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="12dp"
-        android:scrollbars="vertical"
-        android:visibility="invisible"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dropdownImportOrSell"
-        tools:listitem="@layout/list_provider" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="invisible">
 
-    <ListView
-        android:id="@+id/listViewImport"
+        <ListView
+            android:id="@+id/listViewSell"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="12dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/waiting_list_item" />
+
+        <Button
+            android:id="@+id/btnSellSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listViewSell"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/blue_deep_sky"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:text="@string/lbImportExistingSave"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/importForm"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="12dp"
-        android:scrollbars="vertical"
-        android:visibility="invisible"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dropdownImportOrSell"
-        tools:listitem="@layout/waiting_list_item" />
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:visibility="invisible">
+
+        <ListView
+            android:id="@+id/listViewImport"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="12dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/waiting_list_item" />
+
+        <Button
+            android:id="@+id/btnImportSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listViewImport"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/blue_deep_sky"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:text="@string/lbImportExistingSave"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="invisible"/>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
