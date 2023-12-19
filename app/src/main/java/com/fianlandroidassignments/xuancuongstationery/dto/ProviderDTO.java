@@ -5,6 +5,8 @@ public class ProviderDTO {
     private String name;
     private byte[] image;
 
+    public ProviderDTO(){}
+
     public ProviderDTO(int id, String name, byte[] image) {
         this.id = id;
         this.name = name;

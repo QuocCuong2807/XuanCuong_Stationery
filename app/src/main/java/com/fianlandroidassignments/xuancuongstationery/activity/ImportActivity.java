@@ -78,6 +78,7 @@ public class ImportActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(ImportActivity.this);
 
+
         fillCategories();
 
         fillProviders();
@@ -197,7 +198,12 @@ public class ImportActivity extends AppCompatActivity {
         relativeLayoutNotExisting = findViewById(R.id.notExistingForm);
         scrollViewImportProduct = findViewById(R.id.scrollViewNotExisting);
 
+        /*providers = new ArrayList<>();
+        categoryDTOList = new ArrayList<>();*/
+
         toolbar = findViewById(R.id.customTopImportBar);
+        newProvider = new ProviderDTO();
+        newCategory = new CategoryDTO();
     }
 
     private void setDefaultBorderColor(){

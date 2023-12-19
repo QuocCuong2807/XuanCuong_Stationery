@@ -14,4 +14,5 @@ public class ProviderTable {
 
     public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
     public static final String SELECT_ALL_QUERY = "SELECT * FROM " + TABLE_NAME;
+    public static final String SELECT_PROVIDER_BY_ID = " SELECT * FROM " + TABLE_NAME + " WHERE " + PROVIDER_ID + " = ? ";
 }

@@ -31,6 +31,12 @@ public class ImportBillDetailDTO {
         this.importPrice = importPrice;
     }
 
+    public ImportBillDetailDTO(int productQuantity, int productPrice, int importPrice) {
+        this.productQuantity = productQuantity;
+        this.productPrice = productPrice;
+        this.importPrice = importPrice;
+    }
+
     public int getId() {
         return id;
     }

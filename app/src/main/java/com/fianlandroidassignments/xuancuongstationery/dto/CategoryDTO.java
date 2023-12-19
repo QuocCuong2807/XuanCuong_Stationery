@@ -6,11 +6,18 @@ public class CategoryDTO {
     private byte [] image;
     private int product_quantity;
 
+    public CategoryDTO(){};
     public CategoryDTO(int category_id, String category_name, byte[] image, int product_quantity) {
         this.category_id = category_id;
         this.category_name = category_name;
         this.image = image;
         this.product_quantity = product_quantity;
+    }
+
+    public CategoryDTO(int category_id, String category_name, byte[] image) {
+        this.category_id = category_id;
+        this.category_name = category_name;
+        this.image = image;
     }
 
     public CategoryDTO(String category_name, byte[] image) {

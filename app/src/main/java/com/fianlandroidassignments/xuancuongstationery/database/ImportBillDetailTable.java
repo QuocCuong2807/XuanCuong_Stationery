@@ -21,6 +21,8 @@ public class ImportBillDetailTable {
                     " FOREIGN KEY " + "("+IMPORT_BILL_ID+") REFERENCES "+ IMPORT_BILL_TABLE_NAME + "("+IMPORT_BILL_ID+")" +
                     " FOREIGN KEY " + "("+PRODUCT_ID+") REFERENCES "+ PRODUCT_TABLE_NAME + "("+PRODUCT_ID+")" +")";
 
+    public static final String SELECT_ALL_IMPORT_DETAIL_BY_BILL_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + IMPORT_BILL_ID + " = ? ";
+
     public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 }

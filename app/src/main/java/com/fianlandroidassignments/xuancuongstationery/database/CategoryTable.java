@@ -21,4 +21,6 @@ public class CategoryTable {
             + " LEFT JOIN " + ProductTable.TABLE_NAME + " p "
             + " ON c." + CATEGORY_ID + " = " + "p." + ProductTable.CATEGORY_ID
             +" GROUP BY c."+ CATEGORY_ID;
+
+    public static final String SELECT_CATEGORY_BY_ID = "SELECT * FROM "+ TABLE_NAME + " WHERE " + CATEGORY_ID + " = ? ";
 }

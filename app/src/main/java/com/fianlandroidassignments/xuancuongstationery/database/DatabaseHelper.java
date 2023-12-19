@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDetailDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "XuanCuongStationery.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     SQLiteDatabase sqLiteDatabase;
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -95,6 +96,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return providerList;
+    }
+
+    public ProviderDTO selectProviderById(int id){
+        sqLiteDatabase = this.getReadableDatabase();
+        String[] selectionArgs = {String.valueOf(id)};
+        ProviderDTO providerDTO;
+
+        Cursor cursor = sqLiteDatabase.rawQuery(CategoryTable.SELECT_CATEGORY_BY_ID,selectionArgs);
+
+        if (cursor.moveToFirst()){
+            int provider_id = cursor.getInt(0);
+            String provider_name = cursor.getString(1);
+            byte[] provider_img = cursor.getBlob(2);
+
+            cursor.close();
+
+            return new ProviderDTO(provider_id,provider_name,provider_img);
+        }
+        return null;
     }
 
     //delete 1 record in provider table by id
@@ -176,6 +196,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return numOfRowAffected;
     }
 
+    public CategoryDTO selectCategoryById(int id){
+        sqLiteDatabase = this.getReadableDatabase();
+        String[] selectionArgs = {String.valueOf(id)};
+
+        Cursor cursor = sqLiteDatabase.rawQuery(CategoryTable.SELECT_CATEGORY_BY_ID,selectionArgs);
+
+        if (cursor.moveToFirst()){
+            int cate_id = cursor.getInt(0);
+            String cate_name = cursor.getString(1);
+            byte[] cate_img = cursor.getBlob(2);
+
+            cursor.close();
+
+            return new CategoryDTO(cate_id, cate_name, cate_img);
+        }
+        return null;
+    }
+
                                     /* MANIPULATE WITH PRODUCT TABLE*/
 
     public long insertNewProduct(ProductDTO productDTO){
@@ -197,8 +235,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newProductId;
     }
 
+    public ProductDTO selectProductById(int id)
+    {
+        sqLiteDatabase = this.getReadableDatabase();
+
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = sqLiteDatabase.rawQuery(ProductTable.SELECT_PRODUCT_BY_ID,selectionArgs);
+        ProductDTO productDTO;
+
+        if (cursor.moveToFirst()){
+            int product_id = cursor.getInt(0);
+            String product_name = cursor.getString(1);
+            byte [] product_image = cursor.getBlob(2);
+            int product_quantity = cursor.getInt(3);
+            int product_status = cursor.getInt(4);
+            String product_desc = cursor.getString(5);
+            int import_price = cursor.getInt(6);
+            int sell_price = cursor.getInt(7);
+            int cate_id = cursor.getInt(8);
+            int provider_id = cursor.getInt(9);
+
+            ProviderDTO providerDTO = selectProviderById(provider_id);
+            CategoryDTO categoryDTO = selectCategoryById(cate_id);
+
+            productDTO = new ProductDTO(product_id,product_name,product_image,product_quantity,import_price,
+                                    sell_price,product_status,product_desc,categoryDTO, providerDTO);
+            cursor.close();
+
+            return productDTO;
+
+        }
+        return null;
+    }
+
                                 /* MANIPULATE WITH IMPORT BILL TABLE*/
-    private long insertNewImportBill(ImportBillDTO importBillDTO){
+    public long insertNewImportBill(ImportBillDTO importBillDTO){
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -210,7 +281,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newBillId;
     }
 
-    private int updateImportTotalPrice(int id,int totalPrice)
+    public int updateImportTotalPrice(int id,int totalPrice)
     {
         sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -222,4 +293,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return numOfRowAffected;
     }
+
+    public ImportBillDTO selectImportById(int id){
+        sqLiteDatabase = this.getReadableDatabase();
+        String[] selectionArgs = {String.valueOf(id)};
+        ImportBillDTO importBillDTO;
+
+        Cursor cursor = sqLiteDatabase.rawQuery(ImportBillTable.SELECT_IMPORT_BILL_BY_ID,selectionArgs);
+
+        if (cursor.moveToFirst()){
+            int import_id = cursor.getInt(0);
+            String import_date = cursor.getString(1);
+            int import_totalPrice = cursor.getInt(2);
+
+            cursor.close();
+
+            return new ImportBillDTO(import_id, import_date, import_totalPrice);
+        }
+        return null;
+    }
+
+                                /* MANIPULATE WITH IMPORT BILL DETAIL TABLE*/
+
+    public long insertNewImportBillDetail(ProductDTO productDTO, ImportBillDTO importBillDTO){
+
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ImportBillDetailTable.IMPORT_BILL_ID, importBillDTO.getBillId());
+        contentValues.put(ImportBillDetailTable.PRODUCT_ID, productDTO.getProduct_id());
+        contentValues.put(ImportBillDetailTable.PRODUCT_QUANTITY, productDTO.getProduct_quantity());
+        contentValues.put(ImportBillDetailTable.PRODUCT_PRICE, productDTO.getImport_price());
+        contentValues.put(ImportBillDetailTable.BILL_DETAIL_PRICE, productDTO.getImport_price() * productDTO.getProduct_quantity());
+
+        long newImportBillDetailId = sqLiteDatabase.insert(ImportBillDetailTable.TABLE_NAME, null, contentValues);
+
+        return newImportBillDetailId;
+    }
+
+    public List<ImportBillDetailDTO> selectAllBillDetailByBillId(int billId){
+        List<ImportBillDetailDTO> importBillDetailDTOList = new ArrayList<>();
+        sqLiteDatabase = getReadableDatabase();
+        String[] selectionArgs = {String.valueOf(billId)};
+
+        Cursor cursor = sqLiteDatabase.rawQuery(ImportBillDetailTable.SELECT_ALL_IMPORT_DETAIL_BY_BILL_ID,selectionArgs);
+
+        if (cursor.moveToFirst()){
+            do {
+                int productQuantity = cursor.getInt(1);
+                int productPrice = cursor.getInt(2);
+                int importPrice = cursor.getInt(3);
+
+                importBillDetailDTOList.add(new ImportBillDetailDTO(productQuantity,productPrice,importPrice));
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return importBillDetailDTOList;
+    }
+
 }
