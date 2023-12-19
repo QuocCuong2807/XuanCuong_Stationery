@@ -12,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
-import com.fianlandroidassignments.xuancuongstationery.dto.Category;
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
-import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
 import java.util.ArrayList;
 import java.util.List;

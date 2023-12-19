@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
-import com.fianlandroidassignments.xuancuongstationery.dto.Category;
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
 import com.google.android.material.imageview.ShapeableImageView;
 

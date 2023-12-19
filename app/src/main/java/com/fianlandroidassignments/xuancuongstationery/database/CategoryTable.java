@@ -12,6 +12,7 @@ public class CategoryTable {
                     CATEGORY_NAME + " TEXT, " +
                     CATEGORY_IMAGE + " BLOB)";
 
+    public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
     public static final String SELECT_ALL_WITH_QUANTITY =
             "SELECT  c." + CATEGORY_ID + ", c." + CATEGORY_NAME
             + ", c." + CATEGORY_IMAGE

@@ -17,7 +17,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "XuanCuongStationery.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     SQLiteDatabase sqLiteDatabase;
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,6 +39,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+        /* to update db pls update version  */
+
+       /* db.execSQL(SoldBillDetailTable.DROP_TABLE_QUERY);
+        db.execSQL(SoldBillTable.DROP_TABLE_QUERY);
+        db.execSQL(ImportBillDetailTable.DROP_TABLE_QUERY);
+        db.execSQL(ImportBillTable.DROP_TABLE_QUERY);
+        db.execSQL(ProductTable.DROP_TABLE_QUERY);
+        db.execSQL(ProviderTable.DROP_TABLE_QUERY);
+        db.execSQL(CategoryTable.DROP_TABLE_QUERY);
+        onCreate(db);*/
+
+    }
+
+    public void addColumnToTable() {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        String sql = "ALTER TABLE ProductTable ADD COLUMN product_price INTEGER";
+
+        sqLiteDatabase.execSQL(sql);
     }
 
                                     /* MANIPULATE WITH PROVIDER TABLE*/
@@ -153,5 +172,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 CategoryTable.CATEGORY_ID+ " = ? ", new String[]{String.valueOf(oldId)});
 
         return numOfRowAffected;
+    }
+
+                                    /* MANIPULATE WITH PRODUCT TABLE*/
+
+    public long insertNewProduct(){
+        return 0;
     }
 }

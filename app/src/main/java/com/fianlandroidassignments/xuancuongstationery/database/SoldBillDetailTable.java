@@ -20,4 +20,5 @@ public class SoldBillDetailTable {
                     PRODUCT_ID + " INTEGER, " +
                     " FOREIGN KEY " + "("+SOLD_BILL_ID+") REFERENCES "+ SOLD_BILL_TABLE_NAME + "("+SOLD_BILL_ID+")" +
                     " FOREIGN KEY " + "("+PRODUCT_ID+") REFERENCES "+ PRODUCT_TABLE_NAME + "("+PRODUCT_ID+")" +")";
+    public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 }

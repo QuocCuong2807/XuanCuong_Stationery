@@ -9,9 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,14 +33,10 @@ import com.fianlandroidassignments.xuancuongstationery.Common.Common;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.CategoryAdapter;
 import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
-import com.fianlandroidassignments.xuancuongstationery.dto.Category;
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
-import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {

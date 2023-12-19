@@ -12,5 +12,6 @@ public class ProviderTable {
                     PROVIDER_NAME + " TEXT, " +
                     PROVIDER_IMAGE + " BLOB)";
 
+    public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
     public static final String SELECT_ALL_QUERY = "SELECT * FROM " + TABLE_NAME;
 }

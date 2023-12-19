@@ -18,7 +18,6 @@ import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayCategoryAdapter;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayProviderAdapter;
 import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
-import com.fianlandroidassignments.xuancuongstationery.dto.Category;
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -40,8 +39,6 @@ public class ImportActivity extends AppCompatActivity {
     TextInputEditText TextInputEditTextNotExistsQuantity;
     TextInputEditText TextInputEditTextNotExistsPrice;
     Button buttonNotExistsSave;
-
-    List<Category> categories;
     List<CategoryDTO> categoryDTOList;
     List<ProviderDTO> providers;
     ArrayAdapter<String> adapterExsItems;
@@ -107,12 +104,6 @@ public class ImportActivity extends AppCompatActivity {
 
         categoryDTOList = databaseHelper.selectAllCategory();
 
-        categories  = new ArrayList<>();;
-        categories.add(new Category(1, "Book", R.drawable.book, 50));
-        categories.add(new Category(2, "Pen", R.drawable.pen, 29));
-        categories.add(new Category(3, "Ruler", R.drawable.ruler, 11));
-        categories.add(new Category(4, "Eraser", R.drawable.eraser, 6));
-        categories.add(new Category(5, "Office Tools", R.drawable.office_tool, 46));
     }
 
     private void fillProviders(){

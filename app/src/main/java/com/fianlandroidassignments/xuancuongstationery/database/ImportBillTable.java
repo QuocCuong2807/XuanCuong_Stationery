@@ -11,4 +11,5 @@ public class ImportBillTable {
                     IMPORT_BILL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     IMPORT_BILL_DATE + " TEXT, " +
                     IMPORT_BILL_TOTAL_PRICE + " INTEGER)";
+    public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 }
