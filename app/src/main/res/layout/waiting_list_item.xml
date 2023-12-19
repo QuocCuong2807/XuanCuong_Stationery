@@ -15,7 +15,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:id="@+id/listProviderImage"
+            android:id="@+id/importedProductImg"
             android:src="@drawable/tlhc"
             android:scaleType="fitXY"
             android:layout_marginStart="12dp"
@@ -24,41 +24,41 @@
             app:shapeAppearanceOverlay="@style/circle"/>
 
         <TextView
-            android:id="@+id/listProductWaitingListName"
+            android:id="@+id/importedProductName"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Thiên Long Hoàn Cầu"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:layout_toEndOf="@id/listProviderImage"
+            android:layout_toEndOf="@id/importedProductImg"
             android:textSize="16sp"
             android:layout_marginTop="16dp"
             android:layout_marginStart="32dp"/>
 
         <TextView
-            android:id="@+id/listProductWaitingListPrice"
+            android:id="@+id/importedProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAlignment="center"
             android:text="Price: 20000 VND"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:layout_below="@id/listProductWaitingListName"
-            android:layout_toEndOf="@id/listProviderImage"
+            android:layout_below="@id/importedProductName"
+            android:layout_toEndOf="@id/importedProductImg"
             android:textSize="16sp"
             android:layout_marginTop="8dp"
             android:layout_marginStart="32dp"/>
 
         <TextView
-            android:id="@+id/listProductWaitingListQuantity"
+            android:id="@+id/importedProductQuantity"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAlignment="center"
             android:text="SL: 20"
-            android:layout_alignBaseline="@id/listProductWaitingListPrice"
+            android:layout_alignBaseline="@id/importedProductPrice"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:layout_below="@id/listProductWaitingListName"
+            android:layout_below="@id/importedProductName"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="12dp"
             android:textSize="16sp"

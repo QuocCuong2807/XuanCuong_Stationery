@@ -60,7 +60,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgExistingChoose"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_marginTop="18dp"
@@ -82,7 +82,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imgExistingChoose"
         app:layout_constraintVertical_bias="0.0">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -187,7 +187,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imgExistingChoose"
         android:scrollbars="vertical"
         android:visibility="invisible">
 
@@ -352,7 +352,7 @@
 
             <ImageView
                 android:layout_centerHorizontal="true"
-                android:id="@+id/imgChoose"
+                android:id="@+id/imgNewChoose"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_below="@id/txtInputLayoutNotExistingPriceSell"
@@ -363,7 +363,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:layout_below="@id/imgChoose"
+                android:layout_below="@id/imgNewChoose"
                 android:textStyle="italic"
                 android:text="@string/lbChooseImgText"
                 android:textColor="@color/black"

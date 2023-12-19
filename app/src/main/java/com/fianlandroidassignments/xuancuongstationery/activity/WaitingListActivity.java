@@ -11,6 +11,8 @@ import android.widget.ListView;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayCategoryAdapter;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayProviderAdapter;
+import com.fianlandroidassignments.xuancuongstationery.adapter.ImportAdapter;
+import com.fianlandroidassignments.xuancuongstationery.dto.WaitingList;
 
 public class WaitingListActivity extends AppCompatActivity {
     private final String[] arrWaitingListStatus = {"Import List", "Sell List"};
@@ -18,6 +20,7 @@ public class WaitingListActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterExsItems;
     ListView listViewImport;
     ListView listViewSell;
+    ImportAdapter importAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,14 @@ public class WaitingListActivity extends AppCompatActivity {
                 listViewImport.setVisibility(View.INVISIBLE);
             }
         });
+
+        //set adapter to listview
+        setAdapterToListView();
+    }
+
+    private void setAdapterToListView(){
+        importAdapter = new ImportAdapter(WaitingListActivity.this, WaitingList.importList);
+        listViewImport.setAdapter(importAdapter);
     }
 
     private void setDefaultBorderColor(){

@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
 import java.util.ArrayList;
@@ -176,7 +178,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                                     /* MANIPULATE WITH PRODUCT TABLE*/
 
-    public long insertNewProduct(){
-        return 0;
+    public long insertNewProduct(ProductDTO productDTO){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ProductTable.PRODUCT_NAME, productDTO.getProduct_name());
+        contentValues.put(ProductTable.PRODUCT_IMAGE, productDTO.getImage());
+        contentValues.put(ProductTable.PRODUCT_IMPORT_PRICE, productDTO.getImport_price());
+        contentValues.put(ProductTable.PRODUCT_SOLD_PRICE, productDTO.getSell_price());
+        contentValues.put(ProductTable.PRODUCT_QUANTITY, productDTO.getProduct_quantity());
+        contentValues.put(ProductTable.PRODUCT_STATUS, productDTO.getProduct_status());
+        contentValues.put(ProductTable.PRODUCT_DESCRIPTION, productDTO.getProduct_description());
+        contentValues.put(ProductTable.CATEGORY_ID, productDTO.getCategory().getCategory_id());
+        contentValues.put(ProductTable.PROVIDER_ID, productDTO.getProvider().getId());
+
+        long newProductId = sqLiteDatabase.insert(ProductTable.TABLE_NAME, null, contentValues);
+
+        return newProductId;
+    }
+
+                                /* MANIPULATE WITH IMPORT BILL TABLE*/
+    private long insertNewImportBill(ImportBillDTO importBillDTO){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ImportBillTable.IMPORT_BILL_DATE, importBillDTO.getDate());
+        contentValues.put(ImportBillTable.IMPORT_BILL_TOTAL_PRICE, importBillDTO.getTotalPrice());
+
+        long newBillId = sqLiteDatabase.insert(ImportBillTable.TABLE_NAME,null ,contentValues);
+
+        return newBillId;
+    }
+
+    private int updateImportTotalPrice(int id,int totalPrice)
+    {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(ImportBillTable.IMPORT_BILL_TOTAL_PRICE, totalPrice);
+
+        int numOfRowAffected = sqLiteDatabase.update(ImportBillTable.TABLE_NAME, contentValues,
+                ImportBillTable.IMPORT_BILL_ID+ " = ? ", new String[]{String.valueOf(id)});
+
+        return numOfRowAffected;
     }
 }

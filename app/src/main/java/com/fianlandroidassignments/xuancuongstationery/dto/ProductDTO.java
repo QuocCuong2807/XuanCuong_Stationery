@@ -5,36 +5,36 @@ public class ProductDTO {
     private String product_name;
     private byte[] image;
     private int product_quantity;
-    private int product_price;
+    private int import_price;
+    private int sell_price;
     private int product_status;
     private String product_description;
     private CategoryDTO category;
     private ProviderDTO provider;
 
-    //constructor with id
     public ProductDTO(int product_id, String product_name, byte[] image, int product_quantity,
-                      int product_price, int product_status, String product_description,
-                      CategoryDTO category, ProviderDTO provider)
-    {
+                      int import_price, int sell_price, int product_status, String product_description,
+                      CategoryDTO category, ProviderDTO provider) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.image = image;
         this.product_quantity = product_quantity;
-        this.product_price = product_price;
+        this.import_price = import_price;
+        this.sell_price = sell_price;
         this.product_status = product_status;
         this.product_description = product_description;
         this.category = category;
         this.provider = provider;
     }
 
-    //constructor without id
-    public ProductDTO(String product_name, byte[] image, int product_quantity, int product_price,
-                      int product_status, String product_description, CategoryDTO category, ProviderDTO provider)
-    {
+    public ProductDTO(String product_name, byte[] image, int product_quantity, int import_price,
+                      int sell_price, int product_status, String product_description, CategoryDTO category,
+                      ProviderDTO provider) {
         this.product_name = product_name;
         this.image = image;
         this.product_quantity = product_quantity;
-        this.product_price = product_price;
+        this.import_price = import_price;
+        this.sell_price = sell_price;
         this.product_status = product_status;
         this.product_description = product_description;
         this.category = category;
@@ -73,12 +73,20 @@ public class ProductDTO {
         this.product_quantity = product_quantity;
     }
 
-    public int getProduct_price() {
-        return product_price;
+    public int getImport_price() {
+        return import_price;
     }
 
-    public void setProduct_price(int product_price) {
-        this.product_price = product_price;
+    public void setImport_price(int import_price) {
+        this.import_price = import_price;
+    }
+
+    public int getSell_price() {
+        return sell_price;
+    }
+
+    public void setSell_price(int sell_price) {
+        this.sell_price = sell_price;
     }
 
     public int getProduct_status() {

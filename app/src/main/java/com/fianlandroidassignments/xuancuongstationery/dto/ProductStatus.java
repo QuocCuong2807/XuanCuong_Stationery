@@ -1,8 +1,8 @@
 package com.fianlandroidassignments.xuancuongstationery.dto;
 
 public enum ProductStatus {
-    AVAILABLE(0),
-    UN_AVAILABLE(1);
+    AVAILABLE(1),
+    UN_AVAILABLE(0);
 
     private final int value;
 
