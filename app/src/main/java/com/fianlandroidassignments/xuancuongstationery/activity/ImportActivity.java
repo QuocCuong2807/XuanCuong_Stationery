@@ -37,7 +37,8 @@ public class ImportActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextViewNotExistsProvider;
     TextInputEditText TextInputEditTextNotExistsProduct;
     TextInputEditText TextInputEditTextNotExistsQuantity;
-    TextInputEditText TextInputEditTextNotExistsPrice;
+    TextInputEditText TextInputEditTextNotExistsPriceImport;
+    TextInputEditText TextInputEditTextNotExistsPriceSell;
     Button buttonNotExistsSave;
     List<CategoryDTO> categoryDTOList;
     List<ProviderDTO> providers;
@@ -101,9 +102,7 @@ public class ImportActivity extends AppCompatActivity {
     }
 
     private void fillCategories(){
-
         categoryDTOList = databaseHelper.selectAllCategory();
-
     }
 
     private void fillProviders(){
@@ -121,7 +120,8 @@ public class ImportActivity extends AppCompatActivity {
         autoCompleteTextViewNotExistsProvider = findViewById(R.id.autoCompleteNotExistingProviderList);
         TextInputEditTextNotExistsProduct = findViewById(R.id.txInputEdtNotExistingProductName);
         TextInputEditTextNotExistsQuantity = findViewById(R.id.txInputEdtNotExistingQuantity);
-        TextInputEditTextNotExistsPrice = findViewById(R.id.txInputEdtNotExistingPrice);
+        TextInputEditTextNotExistsPriceImport = findViewById(R.id.txInputEdtNotExistingPriceImport);
+        TextInputEditTextNotExistsPriceSell = findViewById(R.id.txInputEdtNotExistingPriceSell);
         buttonNotExistsSave = findViewById(R.id.btnImportNotExistingSave);
 
         adapterExsItems = new ArrayAdapter<>(this, R.layout.list_item_product_exists, arrExistsStatus);

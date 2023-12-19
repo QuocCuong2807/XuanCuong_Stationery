@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     MaterialToolbar toolbar;
     private DatabaseHelper databaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
         } else if (item.getItemId() == R.id.sellStack) {
-            Toast.makeText(MainActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+            Intent it = new Intent(MainActivity.this, WaitingListActivity.class);
+            startActivity(it);
         }
         return super.onOptionsItemSelected(item);
     }

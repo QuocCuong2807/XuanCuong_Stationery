@@ -21,7 +21,8 @@
     <string name="lbHintQuantity">Quantity</string>
     <string name="lbRequire">Required</string>
     <string name="lbImportExistingSave">Save</string>
-    <string name="lbHintPrice">Price</string>
+    <string name="lbHintPriceImport">Price Import</string>
+    <string name="lbHintPriceSell">Price Sell</string>
     <string name="lbProviderDropdown">Supplier</string>
     <string name="lbHintProductName">Product Name</string>
     <string name="lbChooseImgText">Click to chose image</string>
@@ -33,4 +34,6 @@
     <string name="lbNoticeProviderAdd">Provider Name</string>
     <string name="lbProviderEdit">Edit Provider Information</string>
     <string name="lbEditDialog">Edit</string>
+    <string name="lbWaitingList">Waiting List</string>
+    <string name="lbKindOfWaitingList">Import or Sell?</string>
 </resources>
