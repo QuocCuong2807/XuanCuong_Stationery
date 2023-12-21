@@ -33,6 +33,8 @@ public class ProductTable {
 
     public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
+    public static final String SELECT_ALL_PRODUCTS = "SELECT * FROM " + TABLE_NAME;
+
     public static final String SELECT_PRODUCT_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + PRODUCT_ID + " = ?";
 
     public static final String SELECT_PRODUCT_BY_CATE_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + CATEGORY_ID + " = ?";

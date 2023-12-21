@@ -173,7 +173,7 @@ public class ImportActivity extends AppCompatActivity {
 
         boolean isValid = validateAddNewInput(TextInputEditTextNotExistsProduct,TextInputEditTextNotExistsQuantity
                 , TextInputEditTextNotExistsPriceImport, TextInputEditTextNotExistsPriceSell,
-                autoCompleteTextViewExistsCategory, autoCompleteTextViewNotExistsProvider);
+                autoCompleteTextViewNotExistsCategory, autoCompleteTextViewNotExistsProvider);
 
 
         //validate input before initiate object
@@ -211,13 +211,13 @@ public class ImportActivity extends AppCompatActivity {
         if (name.getText().toString().trim().equals("") || name == null)
             return false;
         if (quantity.getText().toString().trim().equals("") || quantity == null
-                || quantity.getText().toString().trim().equals(""))
+                || quantity.getText().toString().trim().equals("0"))
             return false;
         if (importPrice.getText().toString().trim().equals("") || importPrice == null
                 || importPrice.getText().toString().trim().equals("0"))
             return false;
         if (sellPrice.getText().toString().trim().equals("") || sellPrice == null
-                || sellPrice.getText().toString().trim().equals(""))
+                || sellPrice.getText().toString().trim().equals("0"))
             return false;
         if (category.getText().toString().trim().equals("") || category == null)
             return false;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/context_product_Sell"
+        android:title="@string/lbContextProductSell"/>
+    <item
+        android:id="@+id/context_product_Update"
+        android:title="@string/lbContextUpdate"/>
+    <item
+        android:id="@+id/context_product_delete"
+        android:title="@string/lbContextDel"/>
+</menu>
