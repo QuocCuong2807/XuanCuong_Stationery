@@ -12,22 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
-import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayCategoryAdapter extends ArrayAdapter<CategoryDTO> {
-    private List<CategoryDTO> categoryListFull;
-    public ArrayCategoryAdapter(@NonNull Context context,  @NonNull List<CategoryDTO> categoryList) {
-        super(context, 0, categoryList);
-        this.categoryListFull = categoryList;
+public class ArrayProductAdapter extends ArrayAdapter<ProductDTO> {
+    List<ProductDTO> productDTOList;
+
+    public ArrayProductAdapter(@NonNull Context context, @NonNull List<ProductDTO> productDTOList) {
+        super(context, 0, productDTOList);
+        this.productDTOList = productDTOList;
     }
 
     @NonNull
     @Override
     public Filter getFilter() {
-        return categoryFilter;
+        return productFilter;
     }
 
     @NonNull
@@ -38,28 +40,27 @@ public class ArrayCategoryAdapter extends ArrayAdapter<CategoryDTO> {
         }
 
         TextView textView = convertView.findViewById(R.id.listItemId);
-        CategoryDTO categoryItem = getItem(position);
-        if (categoryItem != null) {
-            textView.setText(categoryItem.getCategory_name());
+        ProductDTO productItem = getItem(position);
+        if (productItem != null) {
+            textView.setText(productItem.getProduct_name());
         }
 
         return convertView;
     }
 
-
-    private final Filter categoryFilter = new Filter() {
+    private final Filter productFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            List<CategoryDTO> suggestions = new ArrayList<>();
+            List<ProductDTO> suggestions = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
-                suggestions.addAll(categoryListFull);
+                suggestions.addAll(productDTOList);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (CategoryDTO item : categoryListFull) {
-                    if (item.getCategory_name().toLowerCase().contains(filterPattern)) {
+                for (ProductDTO item : productDTOList) {
+                    if (item.getProduct_name().toLowerCase().contains(filterPattern)) {
                         suggestions.add(item);
                     }
                 }
@@ -77,10 +78,10 @@ public class ArrayCategoryAdapter extends ArrayAdapter<CategoryDTO> {
             notifyDataSetChanged();
         }
 
-
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            return ((CategoryDTO) resultValue).getCategory_name();
+            return ((ProductDTO) resultValue).getProduct_name();
         }
     };
+
 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +22,8 @@ import com.fianlandroidassignments.xuancuongstationery.fragment.RevenueFragment;
 import com.fianlandroidassignments.xuancuongstationery.databinding.ActivityMainBinding;
 import com.google.android.material.appbar.MaterialToolbar;
 
+import java.lang.reflect.Field;
+
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     MaterialToolbar toolbar;
@@ -29,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+
 
         databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();

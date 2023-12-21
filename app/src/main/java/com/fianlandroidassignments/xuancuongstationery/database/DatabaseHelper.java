@@ -3,24 +3,27 @@ package com.fianlandroidassignments.xuancuongstationery.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.fianlandroidassignments.xuancuongstationery.Common.Common;
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDetailDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "XuanCuongStationery.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     SQLiteDatabase sqLiteDatabase;
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /* to update db pls update version  */
 
-       /* db.execSQL(SoldBillDetailTable.DROP_TABLE_QUERY);
+        /*db.execSQL(SoldBillDetailTable.DROP_TABLE_QUERY);
         db.execSQL(SoldBillTable.DROP_TABLE_QUERY);
         db.execSQL(ImportBillDetailTable.DROP_TABLE_QUERY);
         db.execSQL(ImportBillTable.DROP_TABLE_QUERY);
@@ -55,13 +58,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addColumnToTable() {
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
-        String sql = "ALTER TABLE ProductTable ADD COLUMN product_price INTEGER";
 
-        sqLiteDatabase.execSQL(sql);
-    }
 
                                     /* MANIPULATE WITH PROVIDER TABLE*/
 
@@ -268,6 +266,66 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public List<ProductDTO> selectProductByCateId(int categoryId)
+    {
+        sqLiteDatabase = this.getReadableDatabase();
+
+        List<ProductDTO> productDTOList = new ArrayList<>();
+
+        String[] selectionArgs = {String.valueOf(categoryId)};
+
+        Cursor cursor = sqLiteDatabase.rawQuery(ProductTable.SELECT_PRODUCT_BY_CATE_ID,selectionArgs);
+
+        if (cursor.moveToFirst()){
+            do {
+                int product_id = cursor.getInt(0);
+                String product_name = cursor.getString(1);
+                byte [] product_image = cursor.getBlob(2);
+                int product_quantity = cursor.getInt(3);
+                int product_status = cursor.getInt(4);
+                String product_desc = cursor.getString(5);
+                int import_price = cursor.getInt(6);
+                int sell_price = cursor.getInt(7);
+                int cate_id = cursor.getInt(8);
+                int provider_id = cursor.getInt(9);
+
+                ProviderDTO providerDTO = selectProviderById(provider_id);
+                CategoryDTO categoryDTO = selectCategoryById(cate_id);
+
+
+                productDTOList.add(new ProductDTO(product_id,product_name,product_image,product_quantity,import_price,
+                        sell_price,product_status,product_desc,categoryDTO, providerDTO));
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return productDTOList;
+    }
+
+
+    //update product quantity
+
+    public int updateProductQuantity(int existingProductId,int newQuantity){
+
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        //get product need to update by id
+        ProductDTO existingProduct = selectProductById(existingProductId);
+
+        //update quantity
+        int updatedQuantity = existingProduct.getProduct_quantity() + newQuantity;
+
+        contentValues.put(ProductTable.PRODUCT_QUANTITY, updatedQuantity);
+        String[] selectionArgs = {String.valueOf(existingProductId)};
+
+
+        int numOfRowAffected = sqLiteDatabase.update(ProductTable.TABLE_NAME, contentValues,
+                ProductTable.PRODUCT_ID + " = ? ", selectionArgs);
+
+        return numOfRowAffected;
+    }
+
                                 /* MANIPULATE WITH IMPORT BILL TABLE*/
     public long insertNewImportBill(ImportBillDTO importBillDTO){
         sqLiteDatabase = this.getWritableDatabase();
@@ -335,6 +393,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<ImportBillDetailDTO> importBillDetailDTOList = new ArrayList<>();
         sqLiteDatabase = getReadableDatabase();
         String[] selectionArgs = {String.valueOf(billId)};
+
 
         Cursor cursor = sqLiteDatabase.rawQuery(ImportBillDetailTable.SELECT_ALL_IMPORT_DETAIL_BY_BILL_ID,selectionArgs);
 

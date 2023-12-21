@@ -16,11 +16,14 @@ public class CategoryTable {
     public static final String SELECT_ALL_WITH_QUANTITY =
             "SELECT  c." + CATEGORY_ID + ", c." + CATEGORY_NAME
             + ", c." + CATEGORY_IMAGE
-            +", IFNULL( SUM(p."+ProductTable.PRODUCT_QUANTITY+"), 0)"
+            +", ifnull( SUM(p."+ProductTable.PRODUCT_QUANTITY+"), 0) as sl"
             + " FROM " + TABLE_NAME + " c "
             + " LEFT JOIN " + ProductTable.TABLE_NAME + " p "
             + " ON c." + CATEGORY_ID + " = " + "p." + ProductTable.CATEGORY_ID
             +" GROUP BY c."+ CATEGORY_ID;
+    /*"SELECT c.category_id, c.category_name, c.image, ifnull(sum(p.product_quantity),0) as sl\n" +
+            "FROM Category c LEFT JOIN Product p ON c.category_id = p.product_id\n" +
+            "GROUP BY c.category_id";*/
 
     public static final String SELECT_CATEGORY_BY_ID = "SELECT * FROM "+ TABLE_NAME + " WHERE " + CATEGORY_ID + " = ? ";
 }

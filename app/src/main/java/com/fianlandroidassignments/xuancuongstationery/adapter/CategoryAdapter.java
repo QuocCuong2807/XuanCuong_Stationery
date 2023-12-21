@@ -34,7 +34,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return categoryList.get(position);
     }
 
     @Override

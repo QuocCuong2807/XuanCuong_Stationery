@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.CursorWindow;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -26,9 +28,12 @@ import android.widget.Toast;
 import com.fianlandroidassignments.xuancuongstationery.Common.Common;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayCategoryAdapter;
+import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayProductAdapter;
 import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayProviderAdapter;
 import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
 import com.fianlandroidassignments.xuancuongstationery.dto.CategoryDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDetailDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProductStatus;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
@@ -36,7 +41,9 @@ import com.fianlandroidassignments.xuancuongstationery.dto.WaitingList;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ImportActivity extends AppCompatActivity {
@@ -45,19 +52,20 @@ public class ImportActivity extends AppCompatActivity {
     AutoCompleteTextView autoCompleteTextViewExistsCategory;
     AutoCompleteTextView autoCompleteTextViewExistsProduct;
     TextInputEditText textInputEditTextExistsQuantity;
-    Button buttonExistsSave;
     AutoCompleteTextView autoCompleteTextViewNotExistsCategory;
     AutoCompleteTextView autoCompleteTextViewNotExistsProvider;
     TextInputEditText TextInputEditTextNotExistsProduct;
     TextInputEditText TextInputEditTextNotExistsQuantity;
     TextInputEditText TextInputEditTextNotExistsPriceImport;
     TextInputEditText TextInputEditTextNotExistsPriceSell;
-    Button buttonNotExistsSave;
+    Button buttonNotExistsSave, buttonExistsSave;
     List<CategoryDTO> categoryDTOList;
     List<ProviderDTO> providers;
+    List<ProductDTO> products;
     ArrayAdapter<String> adapterExsItems;
     ArrayCategoryAdapter arrayCategoryAdapter;
     ArrayProviderAdapter arrayProviderAdapter;
+    ArrayProductAdapter arrayProductAdapter;
     RelativeLayout relativeLayoutExisting;
     RelativeLayout relativeLayoutNotExisting;
 
@@ -69,15 +77,22 @@ public class ImportActivity extends AppCompatActivity {
     ImageView imgNewImport, imgExistingImport;
     ActivityResultLauncher<Intent> resultLauncher;
     private ProviderDTO newProvider;
-    private CategoryDTO newCategory;
+    private CategoryDTO newCategory, existingCategory;
+    private ProductDTO productDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import);
 
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 *1024);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         databaseHelper = new DatabaseHelper(ImportActivity.this);
-
 
         fillCategories();
 
@@ -108,13 +123,6 @@ public class ImportActivity extends AppCompatActivity {
 
         displayImageForNewImport();
 
-        buttonNotExistsSave.setOnClickListener(view -> addNewProductToWaitingList());
-
-    }
-
-    private void addNewProductToWaitingList(){
-
-        //get category and provider from autocomplete textview
         autoCompleteTextViewNotExistsProvider.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,9 +133,37 @@ public class ImportActivity extends AppCompatActivity {
         autoCompleteTextViewNotExistsCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                newCategory = categoryDTOList.get(position);
+                newCategory  = categoryDTOList.get(position);
             }
         });
+
+        buttonNotExistsSave.setOnClickListener(view -> addNewProductToWaitingList());
+
+        autoCompleteTextViewExistsCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                existingCategory = categoryDTOList.get(position);
+                fillProducts(existingCategory.getCategory_id());
+                arrayProductAdapter = new ArrayProductAdapter(ImportActivity.this, products);
+                autoCompleteTextViewExistsProduct.setAdapter(arrayProductAdapter);
+            }
+        });
+        autoCompleteTextViewExistsProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                productDTO = products.get(position);
+            }
+        });
+
+        int quantity = textInputEditTextExistsQuantity.getText().toString().trim().equals("") ? 0
+                            : Integer.valueOf(textInputEditTextExistsQuantity.getText().toString());
+
+        buttonExistsSave.setOnClickListener(view -> addExistingProduct(productDTO, quantity));
+    }
+
+    private void addNewProductToWaitingList(){
+
+        //get category and provider from autocomplete textview
 
         String productName = TextInputEditTextNotExistsProduct.getText().toString();
         int quantity = Integer.valueOf(TextInputEditTextNotExistsQuantity.getText().toString());
@@ -135,36 +171,88 @@ public class ImportActivity extends AppCompatActivity {
         int sellPrice = Integer.valueOf(TextInputEditTextNotExistsPriceSell.getText().toString());
         byte[] productImg = Common.convertImageViewToByteArray(imgNewImport);
 
-        ProductDTO productDTO = new ProductDTO(productName,productImg,quantity,importPrice,sellPrice
+        boolean isValid = validateAddNewInput(TextInputEditTextNotExistsProduct,TextInputEditTextNotExistsQuantity
+                , TextInputEditTextNotExistsPriceImport, TextInputEditTextNotExistsPriceSell,
+                autoCompleteTextViewExistsCategory, autoCompleteTextViewNotExistsProvider);
+
+
+        //validate input before initiate object
+        if (!isValid){
+            Toast.makeText(ImportActivity.this, "Khong duoc de trong thong tin", Toast.LENGTH_LONG).show();
+
+        }else{
+            ProductDTO productDTO = new ProductDTO(productName,productImg,quantity,importPrice,sellPrice
                     , ProductStatus.AVAILABLE.getValue(), "",newCategory,newProvider);
 
-        int size = WaitingList.importList.size();
-        WaitingList.importList.add(productDTO);
+            int size = WaitingList.importList.size();
+            WaitingList.importList.add(productDTO);
 
+            if(size >= WaitingList.importList.size())
+                Toast.makeText(ImportActivity.this, "fail",Toast.LENGTH_LONG).show();
+            else{
+                Toast.makeText(ImportActivity.this, "success",Toast.LENGTH_LONG).show();
 
-        if(size >= WaitingList.importList.size())
-            Toast.makeText(ImportActivity.this, "fail",Toast.LENGTH_LONG).show();
-        else{
-            Toast.makeText(ImportActivity.this, "success",Toast.LENGTH_LONG).show();
-
-            TextInputEditTextNotExistsProduct.setText("");
-            TextInputEditTextNotExistsQuantity.setText("");
-            TextInputEditTextNotExistsPriceImport.setText("");
-            TextInputEditTextNotExistsPriceSell.setText("");
-            imgNewImport.setImageResource(R.drawable.gallery);
+                TextInputEditTextNotExistsProduct.setText("");
+                TextInputEditTextNotExistsQuantity.setText("");
+                TextInputEditTextNotExistsPriceImport.setText("");
+                TextInputEditTextNotExistsPriceSell.setText("");
+                autoCompleteTextViewNotExistsCategory.setText("");
+                autoCompleteTextViewNotExistsProvider.setText("");
+                imgNewImport.setImageResource(R.drawable.gallery);
+                setAdapterForAutoCompleteTextView();
+            }
         }
 
     }
 
+    private boolean validateAddNewInput(EditText name, EditText quantity, EditText importPrice
+            ,EditText sellPrice, AutoCompleteTextView category, AutoCompleteTextView provider)
+    {
+        if (name.getText().toString().trim().equals("") || name == null)
+            return false;
+        if (quantity.getText().toString().trim().equals("") || quantity == null
+                || quantity.getText().toString().trim().equals(""))
+            return false;
+        if (importPrice.getText().toString().trim().equals("") || importPrice == null
+                || importPrice.getText().toString().trim().equals("0"))
+            return false;
+        if (sellPrice.getText().toString().trim().equals("") || sellPrice == null
+                || sellPrice.getText().toString().trim().equals(""))
+            return false;
+        if (category.getText().toString().trim().equals("") || category == null)
+            return false;
+        if (provider.getText().toString().trim().equals("") || provider == null)
+            return false;
+
+
+        return true;
+    }
+
+
+    private boolean validateExistedAddingInput(AutoCompleteTextView category, AutoCompleteTextView product, EditText quantity){
+
+        if (quantity.getText().toString().trim().equals("") || quantity == null
+                || quantity.getText().toString().trim().equals("0"))
+            return false;
+        if (category.getText().toString().trim().equals("") || category == null)
+            return false;
+        if (product.getText().toString().trim().equals("") || product == null)
+            return false;
+        return true;
+    }
     private void setAdapterForAutoCompleteTextView(){
+
         arrayCategoryAdapter = new ArrayCategoryAdapter(this, categoryDTOList);
         arrayProviderAdapter = new ArrayProviderAdapter(this, providers);
+
         autoCompleteTextViewNotExistsCategory.setAdapter(arrayCategoryAdapter);
         autoCompleteTextViewExistsCategory.setAdapter(arrayCategoryAdapter);
         autoCompleteTextViewNotExistsProvider.setAdapter(arrayProviderAdapter);
 
         //set status adapter to status autocompleteTextView
+
         autoCompleteTextViewExistsStatus.setAdapter(adapterExsItems);
+
 
     }
 
@@ -174,7 +262,10 @@ public class ImportActivity extends AppCompatActivity {
 
     private void fillProviders(){
         providers = databaseHelper.selectAllProvider();
+    }
 
+    private void fillProducts(int id){
+        products = databaseHelper.selectProductByCateId(id);
     }
     private void reference() {
         autoCompleteTextViewExistsStatus = findViewById(R.id.autoCompleteImportExists);
@@ -202,8 +293,8 @@ public class ImportActivity extends AppCompatActivity {
         categoryDTOList = new ArrayList<>();*/
 
         toolbar = findViewById(R.id.customTopImportBar);
-        newProvider = new ProviderDTO();
-        newCategory = new CategoryDTO();
+        /*newProvider = new ProviderDTO();
+        newCategory = new CategoryDTO();*/
     }
 
     private void setDefaultBorderColor(){
@@ -240,6 +331,51 @@ public class ImportActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+
+    private void addExistingProduct(ProductDTO existingProduct, int quantity){
+        boolean isValid =
+        validateExistedAddingInput(autoCompleteTextViewExistsCategory, autoCompleteTextViewExistsProduct, textInputEditTextExistsQuantity);
+
+        //validate input
+        if (!isValid)
+            Toast.makeText(ImportActivity.this, "vui long nhap du thong tin", Toast.LENGTH_LONG).show();
+        else{
+            //update existing product quantity, insert new import bill
+            try {
+                ImportBillDTO importBillDTO = new ImportBillDTO(new Date().toString(), 0);
+                long billId = databaseHelper.insertNewImportBill(importBillDTO);
+                ImportBillDTO newImportBill = databaseHelper.selectImportById((int)billId);
+
+                int rowAffected = databaseHelper.updateProductQuantity(productDTO.getProduct_id(), quantity);
+
+                if (billId != -1 && rowAffected > 0){
+                    long importDetailId = databaseHelper.insertNewImportBillDetail(productDTO, newImportBill);
+                    if (importDetailId != -1){
+                        int totalPrice = calTotalBillPrice(databaseHelper.selectAllBillDetailByBillId((int)billId));
+                        databaseHelper.updateImportTotalPrice((int)billId, totalPrice);
+                    }
+                    Toast.makeText(ImportActivity.this, "success", Toast.LENGTH_LONG).show();
+                    autoCompleteTextViewExistsCategory.setText("");
+                    autoCompleteTextViewExistsProduct.setText("");
+                    textInputEditTextExistsQuantity.setText("");
+                }
+            }catch (Exception e){
+                Toast.makeText(ImportActivity.this, "fail", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+
+    //calculating total price in bill table
+    private int calTotalBillPrice(List<ImportBillDetailDTO> billDetailDTOList){
+        int sum = 0;
+        for (ImportBillDetailDTO item: billDetailDTOList
+        ) {
+            sum += item.getImportPrice();
+        }
+        return sum;
     }
 
     //create topbar menu
