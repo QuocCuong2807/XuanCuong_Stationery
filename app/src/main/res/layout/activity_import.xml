@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/menuColor"
-            app:title="@string/lbProductTitle"
+            app:title="@string/lbImportProductTitle"
             app:titleTextColor="@color/titleToolBarColor">
 
         </com.google.android.material.appbar.MaterialToolbar>

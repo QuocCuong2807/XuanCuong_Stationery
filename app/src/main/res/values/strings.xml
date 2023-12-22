@@ -36,4 +36,6 @@
     <string name="lbEditDialog">Edit</string>
     <string name="lbWaitingList">Waiting List</string>
     <string name="lbKindOfWaitingList">Import or Sell?</string>
+    <string name="lbImportProductTitle">Import Product</string>
+    <string name="lbContextProductSell">Add To Sell List</string>
 </resources>

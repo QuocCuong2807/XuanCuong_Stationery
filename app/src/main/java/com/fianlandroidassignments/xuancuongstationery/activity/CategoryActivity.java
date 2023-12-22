@@ -56,7 +56,7 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-
+        int a = 1;
         databaseHelper = new DatabaseHelper(CategoryActivity.this);
 
         references();
@@ -95,14 +95,14 @@ public class CategoryActivity extends AppCompatActivity {
         addNewCateBtn = findViewById(R.id.addNewCateButton);
     }
 
-    private void referencesEditDialogElement(Dialog dialog){
+    private void referencesEditDialogElement(Dialog dialog) {
         imgEditCategory = dialog.findViewById(R.id.imgProviderEditChoose);
         edtEditCategoryName = dialog.findViewById(R.id.edtProviderNameEdit);
         btnCloseEditCategoryDialog = dialog.findViewById(R.id.btnCloseProviderEditDialog);
         btnSaveToEditCategory = dialog.findViewById(R.id.btnEditProviderDialog);
     }
 
-    private void referencesDialogElement(Dialog dialog){
+    private void referencesDialogElement(Dialog dialog) {
         imgAddCategory = dialog.findViewById(R.id.imgCategoryAddChoose);
         edtCategoryName = dialog.findViewById(R.id.edtCategoryNameAdd);
         btnCloseCategoryDialog = dialog.findViewById(R.id.btnCloseCategoryAddDialog);
@@ -128,11 +128,10 @@ public class CategoryActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.context_view)
             Toast.makeText(CategoryActivity.this, "Ban da chon xem o vi tri: "
                     + info.position, Toast.LENGTH_LONG).show();
-        else if (item.getItemId() == R.id.context_delete){
+        else if (item.getItemId() == R.id.context_delete) {
             databaseHelper.deleteCategory(categoryDTO.getCategory_id());
             displayListView();
-        }
-        else if (item.getItemId() == R.id.context_update){
+        } else if (item.getItemId() == R.id.context_update) {
             openEditDialog(Gravity.CENTER, categoryDTO);
         }
 
@@ -229,12 +228,11 @@ public class CategoryActivity extends AppCompatActivity {
         //insert new provider
         btnSaveToEditCategory.setOnClickListener(view -> {
             if (edtEditCategoryName.getText().toString() == null ||
-                    edtEditCategoryName.getText().toString().trim().equals(""))
-            {
-                Toast.makeText(CategoryActivity.this,"Vui long nhap day du thong tin",Toast.LENGTH_LONG).show();
+                    edtEditCategoryName.getText().toString().trim().equals("")) {
+                Toast.makeText(CategoryActivity.this, "Vui long nhap day du thong tin", Toast.LENGTH_LONG).show();
                 return;
             }
-            editExistingCategory(categoryDTO.getCategory_id(),imgEditCategory, edtEditCategoryName);
+            editExistingCategory(categoryDTO.getCategory_id(), imgEditCategory, edtEditCategoryName);
             dialog.dismiss();
         });
 
@@ -243,62 +241,60 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
 
-
     private void pickImageForAdd() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
     }
 
-    private void pickImageForEdit(){
+    private void pickImageForEdit() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncherEdit.launch(intent);
     }
 
-    private void displayImageForImageView(){
+    private void displayImageForImageView() {
         resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>(){
+                new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult o) {
-                        try{
+                        try {
                             Uri uri = o.getData().getData();
                             imgAddCategory.setImageURI(uri);
-                        }catch (Exception e){
-                            Toast.makeText(CategoryActivity.this, "no image was selected",Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(CategoryActivity.this, "no image was selected", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
-    private void displayImageForEditImageView(){
+    private void displayImageForEditImageView() {
         resultLauncherEdit = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>(){
+                new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult o) {
-                        try{
+                        try {
                             Uri uri = o.getData().getData();
                             imgEditCategory.setImageURI(uri);
-                        }catch (Exception e){
-                            Toast.makeText(CategoryActivity.this, "no image was selected",Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(CategoryActivity.this, "no image was selected", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
     //insert new category function (is used in "open dialog" function when dialog open and click on add button)
-    private void addNewCategory(ImageView imgView, EditText categoryName){
+    private void addNewCategory(ImageView imgView, EditText categoryName) {
 
         CategoryDTO categoryDTO =
                 new CategoryDTO(categoryName.getText().toString(), Common.convertImageViewToByteArray(imgView));
 
         long result = databaseHelper.insertNewCategory(categoryDTO);
 
-        if (result != -1){
+        if (result != -1) {
             Toast.makeText(CategoryActivity.this, "Insert Success", Toast.LENGTH_LONG).show();
             displayListView();
-        }
-        else
+        } else
             Toast.makeText(CategoryActivity.this, "Insert Fail", Toast.LENGTH_LONG).show();
 
     }
@@ -309,13 +305,12 @@ public class CategoryActivity extends AppCompatActivity {
 
         int numOfRowAffected = databaseHelper.updateCategory(oldId, newCategory);
 
-        if (numOfRowAffected > 0){
+        if (numOfRowAffected > 0) {
             Toast.makeText(CategoryActivity.this, "edit success", Toast.LENGTH_LONG).show();
             displayListView();
-        }else
+        } else
             Toast.makeText(CategoryActivity.this, "Something wrong!!!", Toast.LENGTH_LONG).show();
     }
-
 
 
 }

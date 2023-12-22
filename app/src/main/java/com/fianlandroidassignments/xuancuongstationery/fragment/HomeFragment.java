@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.activity.CategoryActivity;
 import com.fianlandroidassignments.xuancuongstationery.activity.ImportActivity;
+import com.fianlandroidassignments.xuancuongstationery.activity.ListProductActivity;
 import com.fianlandroidassignments.xuancuongstationery.activity.ProviderActivity;
 
 /**
@@ -94,7 +95,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent it;
         if (v.getId() == R.id.cvProduct) {
-            Toast.makeText(getContext(), "Chuc nang dang duoc phat trien!", Toast.LENGTH_LONG).show();
+            it = new Intent(getContext(), ListProductActivity.class);
+            startActivity(it);
         } else if (v.getId() == R.id.cvImport) {
             it = new Intent(getContext(), ImportActivity.class);
             startActivity(it);
