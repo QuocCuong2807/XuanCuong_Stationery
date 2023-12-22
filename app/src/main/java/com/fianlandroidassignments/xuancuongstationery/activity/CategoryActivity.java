@@ -123,6 +123,7 @@ public class CategoryActivity extends AppCompatActivity {
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
         CategoryDTO categoryDTO = categoryDTOList.get(info.position);
         if (item.getItemId() == R.id.context_view)
             Toast.makeText(CategoryActivity.this, "Ban da chon xem o vi tri: "

@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fianlandroidassignments.xuancuongstationery.Common.Common;
@@ -54,6 +55,7 @@ public class ImportActivity extends AppCompatActivity {
     TextInputEditText textInputEditTextExistsQuantity;
     AutoCompleteTextView autoCompleteTextViewNotExistsCategory;
     AutoCompleteTextView autoCompleteTextViewNotExistsProvider;
+    TextView autoCompleteTextViewItem;
     TextInputEditText TextInputEditTextNotExistsProduct;
     TextInputEditText TextInputEditTextNotExistsQuantity;
     TextInputEditText TextInputEditTextNotExistsPriceImport;
@@ -173,7 +175,7 @@ public class ImportActivity extends AppCompatActivity {
 
         boolean isValid = validateAddNewInput(TextInputEditTextNotExistsProduct,TextInputEditTextNotExistsQuantity
                 , TextInputEditTextNotExistsPriceImport, TextInputEditTextNotExistsPriceSell,
-                autoCompleteTextViewExistsCategory, autoCompleteTextViewNotExistsProvider);
+                autoCompleteTextViewNotExistsCategory, autoCompleteTextViewNotExistsProvider);
 
 
         //validate input before initiate object
@@ -208,20 +210,22 @@ public class ImportActivity extends AppCompatActivity {
     private boolean validateAddNewInput(EditText name, EditText quantity, EditText importPrice
             ,EditText sellPrice, AutoCompleteTextView category, AutoCompleteTextView provider)
     {
+
+        String text = category.getText().toString();
         if (name.getText().toString().trim().equals("") || name == null)
             return false;
         if (quantity.getText().toString().trim().equals("") || quantity == null
-                || quantity.getText().toString().trim().equals(""))
+                || quantity.getText().toString().trim().equals("0"))
             return false;
         if (importPrice.getText().toString().trim().equals("") || importPrice == null
                 || importPrice.getText().toString().trim().equals("0"))
             return false;
         if (sellPrice.getText().toString().trim().equals("") || sellPrice == null
-                || sellPrice.getText().toString().trim().equals(""))
+                || sellPrice.getText().toString().trim().equals("0"))
             return false;
-        if (category.getText().toString().trim().equals("") || category == null)
+        if (category.getText().toString().trim().equals("") || category.getText().toString() == null)
             return false;
-        if (provider.getText().toString().trim().equals("") || provider == null)
+        if (provider.getText().toString().trim().equals("") || provider.getText().toString() == null)
             return false;
 
 
@@ -288,6 +292,7 @@ public class ImportActivity extends AppCompatActivity {
         relativeLayoutExisting = findViewById(R.id.existingForm);
         relativeLayoutNotExisting = findViewById(R.id.notExistingForm);
         scrollViewImportProduct = findViewById(R.id.scrollViewNotExisting);
+
 
         /*providers = new ArrayList<>();
         categoryDTOList = new ArrayList<>();*/
