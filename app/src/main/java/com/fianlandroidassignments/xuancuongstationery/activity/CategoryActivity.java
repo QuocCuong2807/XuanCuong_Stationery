@@ -154,7 +154,8 @@ public class CategoryActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
         } else if (item.getItemId() == R.id.sellStack) {
-            Toast.makeText(CategoryActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+            Intent it = new Intent(CategoryActivity.this, WaitingListActivity.class);
+            startActivity(it);
         }
         return super.onOptionsItemSelected(item);
     }

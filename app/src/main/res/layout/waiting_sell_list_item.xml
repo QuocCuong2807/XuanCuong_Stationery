@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardSellItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardCornerRadius="16dp"
+    android:background="@color/white"
+    android:elevation="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/sellProductImg"
+            android:src="@drawable/tlhc"
+            android:scaleType="fitXY"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="4dp"
+            app:shapeAppearanceOverlay="@style/circle"/>
+
+        <TextView
+            android:id="@+id/sellProductName"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Thiên Long Hoàn Cầu"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/sellProductImg"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"/>
+
+        <TextView
+            android:id="@+id/sellProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:text="Price: 20000 VND"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_below="@id/sellProductName"
+            android:layout_toEndOf="@id/sellProductImg"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="32dp"/>
+
+        <TextView
+            android:id="@+id/sellProductQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:inputType="number"
+            android:text=""
+            android:hint="@string/lbHintQuantity"
+            android:layout_alignBaseline="@id/sellProductPrice"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_below="@id/sellProductName"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"/>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

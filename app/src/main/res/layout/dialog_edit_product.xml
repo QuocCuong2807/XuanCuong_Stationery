@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:background="@drawable/bg_white_corner_16"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_yellow_corner_16_top_left_right"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/lbProductEdit"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imgProductEditChoose"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/gallery" />
+
+        <EditText
+            android:id="@+id/edtProductNameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/imgProductEditChoose"
+            android:background="@drawable/bg_gray_corner_10"
+            android:hint="@string/lbHintProductName"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp" />
+        <EditText
+            android:id="@+id/edtProductImportPriceEdit"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_toRightOf="@id/imgProductEditChoose"
+            android:layout_below="@+id/edtProductNameEdit"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:inputType="number"
+            android:layout_weight="1"
+            android:background="@drawable/bg_gray_corner_10"
+            android:hint="@string/lbImportPrice"
+
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp" />
+        <EditText
+            android:id="@+id/edtProductSellPriceEdit"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_toRightOf="@id/imgProductEditChoose"
+            android:layout_below="@+id/edtProductImportPriceEdit"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:background="@drawable/bg_gray_corner_10"
+            android:hint="@string/lbSellPrice"
+
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:alpha="0.5"
+            android:text="@string/lbChooseImgText"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCloseProductEditDialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:alpha="0.8"
+                android:backgroundTint="@color/crimson"
+                android:text="@string/lbCloseDialog"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnEditProductDialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.8"
+                android:backgroundTint="@color/lime_green"
+                android:text="@string/lbEditDialog"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

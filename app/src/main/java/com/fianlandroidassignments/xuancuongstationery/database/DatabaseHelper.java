@@ -15,6 +15,8 @@ import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDetailDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDetailDTO;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "XuanCuongStationery.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
     SQLiteDatabase sqLiteDatabase;
 
     public DatabaseHelper(@Nullable Context context) {
@@ -60,6 +62,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public static DatabaseHelper getInstance(Context context){
+        return new DatabaseHelper(context);
+    }
 
 
     /* MANIPULATE WITH PROVIDER TABLE*/
@@ -358,6 +363,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return numOfRowAffected;
     }
 
+    public int updateSellProductQuantity(int existingProductId, int sellQuantity){
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        //get product need to update by id
+        ProductDTO existingProduct = selectProductById(existingProductId);
+
+        //update quantity
+        int updatedQuantity = existingProduct.getProduct_quantity() - sellQuantity;
+
+
+
+
+        if (updatedQuantity > 0){
+            contentValues.put(ProductTable.PRODUCT_QUANTITY, updatedQuantity);
+            String[] selectionArgs = {String.valueOf(existingProductId)};
+            int numOfRowAffected = sqLiteDatabase.update(ProductTable.TABLE_NAME, contentValues,
+                    ProductTable.PRODUCT_ID + " = ? ", selectionArgs);
+            return numOfRowAffected;
+        }else if(updatedQuantity == 0){
+            contentValues.put(ProductTable.PRODUCT_QUANTITY, updatedQuantity);
+            contentValues.put(ProductTable.PRODUCT_STATUS, 0);
+            String[] selectionArgs = {String.valueOf(existingProductId)};
+            int numOfRowAffected = sqLiteDatabase.update(ProductTable.TABLE_NAME, contentValues,
+                    ProductTable.PRODUCT_ID + " = ? ", selectionArgs);
+            return numOfRowAffected;
+        }
+        else
+            return 0;
+
+    }
+
     /* MANIPULATE WITH IMPORT BILL TABLE*/
     public long insertNewImportBill(ImportBillDTO importBillDTO) {
         sqLiteDatabase = this.getWritableDatabase();
@@ -441,4 +478,89 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return importBillDetailDTOList;
     }
 
+
+    /*MANIPULATE WITH SOLD BILL TABLE*/
+
+    //insert new bill
+    public long insertNewSoldBill(SoldBillDTO soldBillDTO) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(SoldBillTable.SOLD_BILL_DATE, soldBillDTO.getDate());
+        contentValues.put(SoldBillTable.SOLD_BILL_TOTAL_PRICE, soldBillDTO.getTotalPrice());
+
+        long newBillId = sqLiteDatabase.insert(SoldBillTable.TABLE_NAME, null, contentValues);
+
+        return newBillId;
+    }
+
+    public SoldBillDTO selectSoldBillById(int id) {
+        sqLiteDatabase = this.getReadableDatabase();
+        String[] selectionArgs = {String.valueOf(id)};
+        SoldBillDTO soldBillDTO;
+
+        Cursor cursor = sqLiteDatabase.rawQuery(SoldBillTable.SELECT_SOLD_BILL_BY_ID, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            int billId = cursor.getInt(0);
+            String date = cursor.getString(1);
+            int totalPrice = cursor.getInt(2);
+
+            cursor.close();
+
+            return new SoldBillDTO(billId, date, totalPrice);
+        }
+        return null;
+    }
+
+    public int updateSoldTotalPrice(int id, int totalPrice) {
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(SoldBillTable.SOLD_BILL_TOTAL_PRICE, totalPrice);
+
+        int numOfRowAffected = sqLiteDatabase.update(SoldBillTable.TABLE_NAME, contentValues,
+                SoldBillTable.SOLD_BILL_ID + " = ? ", new String[]{String.valueOf(id)});
+
+        return numOfRowAffected;
+    }
+
+    /*MANIPULATE WITH SOLD BILL DETAIL TABLE*/
+
+    public long insertSoldBillDetail(SoldBillDetailDTO soldBillDetail) {
+
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(SoldBillDetailTable.SOLD_BILL_ID, soldBillDetail.getSoldBill().getBillId());
+        contentValues.put(SoldBillDetailTable.PRODUCT_ID, soldBillDetail.getProduct().getProduct_id());
+        contentValues.put(SoldBillDetailTable.PRODUCT_QUANTITY, soldBillDetail.getProductQuantity());
+        contentValues.put(SoldBillDetailTable.PRODUCT_PRICE, soldBillDetail.getProductPrice());
+        contentValues.put(SoldBillDetailTable.BILL_DETAIL_PRICE, soldBillDetail.getProductPrice() * soldBillDetail.getProductQuantity());
+
+        long newImportBillDetailId = sqLiteDatabase.insert(SoldBillDetailTable.TABLE_NAME, null, contentValues);
+
+        return newImportBillDetailId;
+    }
+
+    public List<SoldBillDetailDTO> selectAllSoldBillDetailByBillId(int billId) {
+        List<SoldBillDetailDTO> soldBillDetailDTOList = new ArrayList<>();
+        sqLiteDatabase = getReadableDatabase();
+        String[] selectionArgs = {String.valueOf(billId)};
+
+
+        Cursor cursor = sqLiteDatabase.rawQuery(SoldBillDetailTable.SELECT_ALL_SOLD_DETAIL_BY_BILL_ID, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int productQuantity = cursor.getInt(1);
+                int productPrice = cursor.getInt(2);
+                int importPrice = cursor.getInt(3);
+
+                soldBillDetailDTOList.add(new SoldBillDetailDTO(productQuantity, productPrice, importPrice));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return soldBillDetailDTOList;
+    }
 }

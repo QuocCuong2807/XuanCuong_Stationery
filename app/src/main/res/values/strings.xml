@@ -24,7 +24,7 @@
     <string name="lbHintPriceImport">Price Import</string>
     <string name="lbHintPriceSell">Price Sell</string>
     <string name="lbProviderDropdown">Supplier</string>
-    <string name="lbHintProductName">Product Name</string>
+    <string name="lbHintProductName">Tên sản phẩm</string>
     <string name="lbChooseImgText">Click to chose image</string>
     <string name="lbCategoryAdd">Add New Category</string>
     <string name="lbNoticeCategoryAdd">Category Name</string>
@@ -38,4 +38,7 @@
     <string name="lbKindOfWaitingList">Import or Sell?</string>
     <string name="lbImportProductTitle">Import Product</string>
     <string name="lbContextProductSell">Add To Sell List</string>
+    <string name="lbProductEdit">Edit Product Information</string>
+    <string name="lbImportPrice">Giá nhập</string>
+    <string name="lbSellPrice">Giá bán</string>
 </resources>

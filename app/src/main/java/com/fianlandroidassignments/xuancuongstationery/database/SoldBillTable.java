@@ -13,4 +13,8 @@ public class SoldBillTable {
                     SOLD_BILL_TOTAL_PRICE + " INTEGER)";
 
     public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+    public static final String SELECT_ALL_SOLD_BILL = "SELECT * FROM " + TABLE_NAME;
+
+    public static String SELECT_SOLD_BILL_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "+ SOLD_BILL_ID  + " = ? ";
 }

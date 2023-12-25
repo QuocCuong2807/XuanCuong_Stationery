@@ -85,9 +85,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/listViewSell"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="19dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/blue_deep_sky"
@@ -98,7 +98,25 @@
             android:text="@string/lbImportExistingSave"
             android:textSize="17sp"
             android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btnClearSellList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/crimson"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:text="Clear"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/listViewSell"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBaseline="@+id/btnSellSave"
             android:visibility="invisible"/>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -127,12 +145,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/listViewImport"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:backgroundTint="@color/blue_deep_sky"
+            android:layout_alignParentRight="true"
             android:paddingLeft="50dp"
             android:paddingTop="10dp"
             android:paddingRight="50dp"
@@ -140,6 +154,24 @@
             android:text="@string/lbImportExistingSave"
             android:textSize="17sp"
             android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/btnClearImportList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/crimson"
+            android:paddingLeft="50dp"
+            android:paddingTop="10dp"
+            android:paddingRight="50dp"
+            android:paddingBottom="10dp"
+            android:text="Clear"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/listViewImport"
+            android:layout_alignParentLeft="true"
+
+            android:layout_alignBaseline="@+id/btnImportSave"
             android:visibility="invisible"/>
     </RelativeLayout>
 

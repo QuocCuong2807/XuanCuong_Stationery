@@ -21,4 +21,6 @@ public class SoldBillDetailTable {
                     " FOREIGN KEY " + "("+SOLD_BILL_ID+") REFERENCES "+ SOLD_BILL_TABLE_NAME + "("+SOLD_BILL_ID+")" +
                     " FOREIGN KEY " + "("+PRODUCT_ID+") REFERENCES "+ PRODUCT_TABLE_NAME + "("+PRODUCT_ID+")" +")";
     public static final String DROP_TABLE_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+    public static final String SELECT_ALL_SOLD_DETAIL_BY_BILL_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "+ SOLD_BILL_ID + " = ? ";
 }

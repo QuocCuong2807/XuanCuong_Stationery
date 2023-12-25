@@ -157,10 +157,8 @@ public class ImportActivity extends AppCompatActivity {
             }
         });
 
-        int quantity = textInputEditTextExistsQuantity.getText().toString().trim().equals("") ? 0
-                            : Integer.valueOf(textInputEditTextExistsQuantity.getText().toString());
 
-        buttonExistsSave.setOnClickListener(view -> addExistingProduct(productDTO, quantity));
+        buttonExistsSave.setOnClickListener(view -> addExistingProduct(productDTO));
     }
 
     private void addNewProductToWaitingList(){
@@ -339,9 +337,12 @@ public class ImportActivity extends AppCompatActivity {
     }
 
 
-    private void addExistingProduct(ProductDTO existingProduct, int quantity){
+    private void addExistingProduct(ProductDTO existingProduct){
         boolean isValid =
         validateExistedAddingInput(autoCompleteTextViewExistsCategory, autoCompleteTextViewExistsProduct, textInputEditTextExistsQuantity);
+
+        int quantity = textInputEditTextExistsQuantity.getText().toString().trim().equals("") ? 0
+                : Integer.valueOf(textInputEditTextExistsQuantity.getText().toString());
 
         //validate input
         if (!isValid)
@@ -353,7 +354,7 @@ public class ImportActivity extends AppCompatActivity {
                 long billId = databaseHelper.insertNewImportBill(importBillDTO);
                 ImportBillDTO newImportBill = databaseHelper.selectImportById((int)billId);
 
-                int rowAffected = databaseHelper.updateProductQuantity(productDTO.getProduct_id(), quantity);
+                int rowAffected = databaseHelper.updateProductQuantity(existingProduct.getProduct_id(), quantity);
 
                 if (billId != -1 && rowAffected > 0){
                     long importDetailId = databaseHelper.insertNewImportBillDetail(productDTO, newImportBill);
@@ -398,7 +399,8 @@ public class ImportActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish(); // close this activity and return to preview activity (if there is any)
         } else if (item.getItemId() == R.id.sellStack) {
-            Toast.makeText(ImportActivity.this, "Chuc nang chua hoan thanh", Toast.LENGTH_LONG).show();
+            Intent it = new Intent(ImportActivity.this, WaitingListActivity.class);
+            startActivity(it);
         }
         return super.onOptionsItemSelected(item);
     }
