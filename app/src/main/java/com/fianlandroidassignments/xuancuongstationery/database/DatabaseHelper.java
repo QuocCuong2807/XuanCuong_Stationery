@@ -395,6 +395,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public int deleteProduct(int productId){
+        sqLiteDatabase = this.getWritableDatabase();
+        String[] selectionArgs = {String.valueOf(productId)};
+
+        int totalRow = 0;
+
+        int soldBillDetailTableRow =
+                sqLiteDatabase.delete(SoldBillDetailTable.TABLE_NAME
+                        , SoldBillDetailTable.PRODUCT_ID + " = ? ", selectionArgs);
+
+        int productTableRow = sqLiteDatabase.delete(ProductTable.TABLE_NAME
+                , ProductTable.PRODUCT_ID + " = ? ", selectionArgs);
+
+        totalRow = productTableRow + soldBillDetailTableRow;
+
+        if (totalRow > 0)
+            return totalRow;
+        return 0;
+    }
+
+    public int updateProductInformation(int oldId,byte[]image, String productName, int importPrice, int sellPrice){
+
+        sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String[] selectionArgs = {String.valueOf(oldId)};
+
+        contentValues.put(ProductTable.PRODUCT_NAME, productName);
+        contentValues.put(ProductTable.PRODUCT_IMPORT_PRICE, importPrice);
+        contentValues.put(ProductTable.PRODUCT_SOLD_PRICE, sellPrice);
+        contentValues.put(ProductTable.PRODUCT_IMAGE, image);
+
+        int rowAffected = sqLiteDatabase.update(ProductTable.TABLE_NAME, contentValues
+                                    , ProductTable.PRODUCT_ID + " = ? ", selectionArgs);
+
+
+        return rowAffected;
+    }
+
     /* MANIPULATE WITH IMPORT BILL TABLE*/
     public long insertNewImportBill(ImportBillDTO importBillDTO) {
         sqLiteDatabase = this.getWritableDatabase();

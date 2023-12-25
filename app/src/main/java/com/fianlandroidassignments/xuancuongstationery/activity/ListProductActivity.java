@@ -75,7 +75,6 @@ public class ListProductActivity extends AppCompatActivity {
 
 
 
-        productDTOS = databaseHelper.selectAllProduct();
 
         reference();
         setAdapter();
@@ -88,12 +87,13 @@ public class ListProductActivity extends AppCompatActivity {
     }
 
     private void setAdapter() {
+        productDTOS = databaseHelper.selectAllProduct();
+        productAdapter = new RecyclerViewProductAdapter(ListProductActivity.this, productDTOS);
         recyclerView.setAdapter(productAdapter);
     }
 
     private void reference() {
         recyclerView = findViewById(R.id.recyclerViewListProduct);
-        productAdapter = new RecyclerViewProductAdapter(ListProductActivity.this, productDTOS);
         toolbar = findViewById(R.id.customTopProductBar);
 
     }
@@ -179,12 +179,56 @@ public class ListProductActivity extends AppCompatActivity {
         edtEditProductSellPrice.setText(String.valueOf(product.getSell_price()));
 
         btnCloseEditProductDialog.setOnClickListener(view -> dialog.dismiss());
-        btnEditProductDialog.setOnClickListener(view -> {Toast.makeText(ListProductActivity.this, "từ từ làm", Toast.LENGTH_SHORT).show();});
+        btnEditProductDialog.setOnClickListener(view -> {
+            Toast.makeText(ListProductActivity.this, "từ từ làm", Toast.LENGTH_SHORT).show();
+        });
+
+        editProductImage.setOnClickListener(view -> pickImage());
+
+        btnEditProductDialog.setOnClickListener(view ->
+                editProductInformation(
+                        product.getProduct_id(), editProductImage,edtEditProductName
+                        ,edtEditProductImportPrice, edtEditProductSellPrice
+                ));
 
         dialog.show();
     }
 
+    private void editProductInformation(int oldId,ImageView productImage ,EditText productName
+            , EditText importPrice, EditText sellPrice)
+    {
 
+        if (!validateEditInput(productName, importPrice, sellPrice)){
+            Toast.makeText(ListProductActivity.this, "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int rowAffected = databaseHelper
+                .updateProductInformation(oldId, Common.convertImageViewToByteArray(productImage)
+                ,productName.getText().toString() , Integer.valueOf(importPrice.getText().toString()),
+                                                    Integer.valueOf(sellPrice.getText().toString()));
+
+        if (rowAffected > 0){
+            Toast.makeText(ListProductActivity.this, "success", Toast.LENGTH_SHORT).show();
+            setAdapter();
+        }
+        else
+            Toast.makeText(ListProductActivity.this, "fail", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private boolean validateEditInput(EditText productName, EditText importPrice, EditText sellPrice){
+        if (productName.getText().toString() == null
+                || productName.getText().toString().trim().equals(""))
+            return false;
+        if (importPrice.getText().toString() == null
+                || productName.getText().toString().trim().equals(""))
+            return false;
+        if (sellPrice.getText().toString() == null
+                || sellPrice.getText().toString().trim().equals(""))
+            return false;
+        return true;
+    }
 
     private void manipulateToolbar() {
         setSupportActionBar(toolbar);
@@ -220,11 +264,16 @@ public class ListProductActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.context_product_Update) {
             openEditProductDialog(Gravity.CENTER);
-
         } else if (item.getItemId() == R.id.context_product_Sell) {
             openAddQuantityDialog(Gravity.CENTER);
         } else if (item.getItemId() == R.id.context_product_delete) {
-            //deleteProduct();
+            if (databaseHelper.deleteProduct(product.getProduct_id()) > 0){
+                databaseHelper.deleteProduct(product.getProduct_id());
+                Toast.makeText(ListProductActivity.this, "success", Toast.LENGTH_SHORT).show();
+                setAdapter();
+            }else
+                Toast.makeText(ListProductActivity.this, "fail", Toast.LENGTH_SHORT).show();
+
         }
         return super.onContextItemSelected(item);
     }
