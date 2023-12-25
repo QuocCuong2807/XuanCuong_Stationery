@@ -3,12 +3,29 @@ package com.fianlandroidassignments.xuancuongstationery.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
+import com.fianlandroidassignments.xuancuongstationery.activity.MainActivity;
+import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayCategoryAdapter;
+import com.fianlandroidassignments.xuancuongstationery.adapter.ArrayProviderAdapter;
+import com.fianlandroidassignments.xuancuongstationery.adapter.RecyclerViewImportBillAdapter;
+import com.fianlandroidassignments.xuancuongstationery.adapter.RecyclerViewSoldBillAdapter;
+import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
+import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDTO;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +42,22 @@ public class BillFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private final String[] arrBillTypes = {"Import Bill", "Sold Bill"};
+    AutoCompleteTextView autoCompleteTextViewBillTypes;
+    ArrayAdapter<String> adapterBillTypes;
+    List<ImportBillDTO> importBillDTOS;
+    List<SoldBillDTO> soldBillDTOS;
+
+    RelativeLayout relativeLayoutImportBill;
+    RelativeLayout relativeLayoutSoldBill;
+    DatabaseHelper databaseHelper;
+    RecyclerViewImportBillAdapter recyclerViewImportBillAdapter;
+    RecyclerViewSoldBillAdapter recyclerViewSoldBillAdapter;
+
+    RecyclerView recyclerViewImportBill;
+    RecyclerView recyclerViewSoldBill;
+
 
     public BillFragment() {
         // Required empty public constructor
@@ -55,12 +88,50 @@ public class BillFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        autoCompleteTextViewBillTypes = requireActivity().findViewById(R.id.autoCompleteBillTypes);
+        relativeLayoutImportBill = requireActivity().findViewById(R.id.formImportBill);
+        relativeLayoutSoldBill = requireActivity().findViewById(R.id.formSoldBill);
+        databaseHelper = new DatabaseHelper(requireContext());
+        importBillDTOS = databaseHelper.selectAllImportBill();
+        soldBillDTOS = databaseHelper.selectAllSoldBill();
+        recyclerViewImportBillAdapter = new RecyclerViewImportBillAdapter(requireContext(), importBillDTOS);
+        recyclerViewSoldBillAdapter = new RecyclerViewSoldBillAdapter(requireContext(), soldBillDTOS);
+        recyclerViewImportBill = requireActivity().findViewById(R.id.recyclerViewImportBillList);
+        recyclerViewSoldBill = requireActivity().findViewById(R.id.recyclerViewSoldBillList);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bill, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_bill, container, false);
+        adapterBillTypes = new ArrayAdapter<>(requireContext(), R.layout.list_item_product_exists, arrBillTypes);
+        autoCompleteTextViewBillTypes = inflatedView.findViewById(R.id.autoCompleteBillTypes);
+
+        relativeLayoutImportBill = inflatedView.findViewById(R.id.formImportBill);
+        relativeLayoutSoldBill = inflatedView.findViewById(R.id.formSoldBill);
+
+        recyclerViewSoldBill = inflatedView.findViewById(R.id.recyclerViewSoldBillList);
+        recyclerViewSoldBill.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerViewSoldBill.setAdapter(recyclerViewSoldBillAdapter);
+
+        recyclerViewImportBill = inflatedView.findViewById(R.id.recyclerViewImportBillList);
+        recyclerViewImportBill.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerViewImportBill.setAdapter(recyclerViewImportBillAdapter);
+        autoCompleteTextViewBillTypes.setAdapter(adapterBillTypes);
+        autoCompleteTextViewBillTypes.setDropDownBackgroundResource(R.color.white);
+
+
+        autoCompleteTextViewBillTypes.setOnItemClickListener((parent, view, position, id) -> {
+            if ("Import Bill".equals(adapterBillTypes.getItem(position))) {
+                relativeLayoutImportBill.setVisibility(View.VISIBLE);
+                relativeLayoutSoldBill.setVisibility(View.INVISIBLE);
+            } else if ("Sold Bill".equals(adapterBillTypes.getItem(position))) {
+                relativeLayoutSoldBill.setVisibility(View.VISIBLE);
+                relativeLayoutImportBill.setVisibility(View.INVISIBLE);
+            }
+        });
+        return inflatedView;
     }
 }

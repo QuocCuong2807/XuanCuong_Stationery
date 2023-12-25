@@ -55,7 +55,7 @@ public class ListProductActivity extends AppCompatActivity {
     MaterialToolbar toolbar;
     EditText edtInputQuantity, edtEditProductName, edtEditProductImportPrice, edtEditProductSellPrice;
     ImageView editProductImage;
-    Button  btnCloseAddQuantityDialog, btnSaveAddQuantityDialog, btnCloseEditProductDialog, btnEditProductDialog;
+    Button btnCloseAddQuantityDialog, btnSaveAddQuantityDialog, btnCloseEditProductDialog, btnEditProductDialog;
     ActivityResultLauncher<Intent> resultLauncher;
 
     @Override
@@ -72,8 +72,6 @@ public class ListProductActivity extends AppCompatActivity {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
 
 
         reference();
@@ -98,9 +96,9 @@ public class ListProductActivity extends AppCompatActivity {
 
     }
 
-    private void referencesDialogElement(Dialog dialog){
+    private void referencesDialogElement(Dialog dialog) {
         edtInputQuantity = dialog.findViewById(R.id.edtSellListQuantity);
-        btnCloseAddQuantityDialog =dialog.findViewById(R.id.btnCloseSellListDialog);
+        btnCloseAddQuantityDialog = dialog.findViewById(R.id.btnCloseSellListDialog);
         btnSaveAddQuantityDialog = dialog.findViewById(R.id.btnAddSellListDialog);
     }
 
@@ -143,7 +141,7 @@ public class ListProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                addItemToSellList((int)product.getProduct_id(), Integer.valueOf(edtInputQuantity.getText().toString()));
+                addItemToSellList((int) product.getProduct_id(), Integer.valueOf(edtInputQuantity.getText().toString()));
                 Toast.makeText(ListProductActivity.this, "Đã thêm: " + product.getProduct_name()
                         + " vào danh sách", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
@@ -152,7 +150,7 @@ public class ListProductActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    private void openEditProductDialog(int gravity){
+    private void openEditProductDialog(int gravity) {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -187,37 +185,35 @@ public class ListProductActivity extends AppCompatActivity {
 
         btnEditProductDialog.setOnClickListener(view ->
                 editProductInformation(
-                        product.getProduct_id(), editProductImage,edtEditProductName
-                        ,edtEditProductImportPrice, edtEditProductSellPrice
+                        product.getProduct_id(), editProductImage, edtEditProductName
+                        , edtEditProductImportPrice, edtEditProductSellPrice
                 ));
 
         dialog.show();
     }
 
-    private void editProductInformation(int oldId,ImageView productImage ,EditText productName
-            , EditText importPrice, EditText sellPrice)
-    {
+    private void editProductInformation(int oldId, ImageView productImage, EditText productName
+            , EditText importPrice, EditText sellPrice) {
 
-        if (!validateEditInput(productName, importPrice, sellPrice)){
+        if (!validateEditInput(productName, importPrice, sellPrice)) {
             Toast.makeText(ListProductActivity.this, "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int rowAffected = databaseHelper
                 .updateProductInformation(oldId, Common.convertImageViewToByteArray(productImage)
-                ,productName.getText().toString() , Integer.valueOf(importPrice.getText().toString()),
-                                                    Integer.valueOf(sellPrice.getText().toString()));
+                        , productName.getText().toString(), Integer.valueOf(importPrice.getText().toString()),
+                        Integer.valueOf(sellPrice.getText().toString()));
 
-        if (rowAffected > 0){
+        if (rowAffected > 0) {
             Toast.makeText(ListProductActivity.this, "success", Toast.LENGTH_SHORT).show();
             setAdapter();
-        }
-        else
+        } else
             Toast.makeText(ListProductActivity.this, "fail", Toast.LENGTH_SHORT).show();
 
     }
 
-    private boolean validateEditInput(EditText productName, EditText importPrice, EditText sellPrice){
+    private boolean validateEditInput(EditText productName, EditText importPrice, EditText sellPrice) {
         if (productName.getText().toString() == null
                 || productName.getText().toString().trim().equals(""))
             return false;
@@ -235,6 +231,7 @@ public class ListProductActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -254,6 +251,7 @@ public class ListProductActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     //set onclick event to context menu item
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -267,23 +265,23 @@ public class ListProductActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.context_product_Sell) {
             openAddQuantityDialog(Gravity.CENTER);
         } else if (item.getItemId() == R.id.context_product_delete) {
-            if (databaseHelper.deleteProduct(product.getProduct_id()) > 0){
+            if (databaseHelper.deleteProduct(product.getProduct_id()) > 0) {
                 databaseHelper.deleteProduct(product.getProduct_id());
                 Toast.makeText(ListProductActivity.this, "success", Toast.LENGTH_SHORT).show();
                 setAdapter();
-            }else
+            } else
                 Toast.makeText(ListProductActivity.this, "fail", Toast.LENGTH_SHORT).show();
 
         }
         return super.onContextItemSelected(item);
     }
 
-    private void addItemToSellList(int id, int quantity){
+    private void addItemToSellList(int id, int quantity) {
         SellWaitingList.getInstance(ListProductActivity.this).addProductToSellList(id, quantity);
     }
 
 
-    private void pickImage(){
+    private void pickImage() {
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         resultLauncher.launch(intent);
     }

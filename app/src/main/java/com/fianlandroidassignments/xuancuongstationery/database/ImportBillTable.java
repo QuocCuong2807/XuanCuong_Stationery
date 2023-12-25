@@ -15,4 +15,5 @@ public class ImportBillTable {
 
 
     public static final String SELECT_IMPORT_BILL_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE " + IMPORT_BILL_ID + " = ? ";
+    public static final String SELECT_ALL_IMPORT_BILL = "SELECT * FROM " + TABLE_NAME;
 }

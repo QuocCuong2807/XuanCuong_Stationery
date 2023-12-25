@@ -2,13 +2,162 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_E8"
     tools:context=".fragment.BillFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dropdownBillSelection"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@color/lavender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="top"
+            android:layout_marginTop="16dp"
+            android:hint="@string/lbShowBill"
+            android:textColorHint="@color/textMenuBottom">
 
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteBillTypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imgExistingChoose"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="18dp"
+            android:layout_below="@+id/dropdownBillSelection"
+            android:src="@drawable/dash_line" />
+
+        <RelativeLayout
+            android:id="@+id/formImportBill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/imgExistingChoose"
+            android:visibility="invisible">
+            <TextView
+                android:id="@+id/tvBillId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@string/lbBillId"/>
+
+            <TextView
+                android:id="@+id/tvBillDate"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@id/tvBillId"
+                android:layout_marginStart="60dp"
+                android:textColor="@color/black"
+                android:text="@string/lbBillDate"/>
+
+            <TextView
+                android:id="@+id/tvBillTotal"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="44dp"
+                android:text="@string/lbBillTotal"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                tools:ignore="RelativeOverlap" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewImportBillList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:layout_below="@+id/tvBillTotal"
+                tools:listitem="@layout/recycler_view_bill"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/formSoldBill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/imgExistingChoose"
+            android:visibility="invisible">
+            <TextView
+                android:id="@+id/tvSoldBillId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="@string/lbBillId"/>
+
+            <TextView
+                android:id="@+id/tvSoldBillDate"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/black"
+                android:layout_toEndOf="@id/tvSoldBillId"
+                android:layout_marginStart="60dp"
+                android:text="@string/lbBillDate"/>
+
+            <TextView
+                android:id="@+id/tvSoldBillTotal"
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/black"
+                android:layout_marginEnd="44dp"
+                android:text="@string/lbBillTotal"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewSoldBillList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:layout_below="@+id/tvSoldBillTotal"
+                tools:listitem="@layout/recycler_view_bill"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>

@@ -40,6 +40,7 @@ import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDetailDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.WaitingList;
 import com.google.android.material.appbar.MaterialToolbar;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -175,9 +176,9 @@ public class WaitingListActivity extends AppCompatActivity {
 
     //import product
     private void importNewProduct(){
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         //insert bill to db and select imported bill by id
-        ImportBillDTO importBill = new ImportBillDTO(new Date().toString(),0);
+        ImportBillDTO importBill = new ImportBillDTO(simpleDateFormat.format(new Date()),0);
         int billId = (int)databaseHelper.insertNewImportBill(importBill);
         ImportBillDTO newImportBill = databaseHelper.selectImportById(billId);
 
@@ -212,7 +213,8 @@ public class WaitingListActivity extends AppCompatActivity {
 
 
         //insert new sold bill and get new sold bill id
-        SoldBillDTO soldBill = new SoldBillDTO(String.valueOf(new Date()), 0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SoldBillDTO soldBill = new SoldBillDTO(simpleDateFormat.format(new Date()), 0);
         long billId =  databaseHelper.insertNewSoldBill(soldBill);
         SoldBillDTO newBill = databaseHelper.selectSoldBillById((int)billId);
 

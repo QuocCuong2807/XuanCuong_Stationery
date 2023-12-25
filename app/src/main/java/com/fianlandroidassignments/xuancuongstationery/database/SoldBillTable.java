@@ -16,5 +16,5 @@ public class SoldBillTable {
 
     public static final String SELECT_ALL_SOLD_BILL = "SELECT * FROM " + TABLE_NAME;
 
-    public static String SELECT_SOLD_BILL_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "+ SOLD_BILL_ID  + " = ? ";
+    public static final String SELECT_SOLD_BILL_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "+ SOLD_BILL_ID  + " = ? ";
 }
