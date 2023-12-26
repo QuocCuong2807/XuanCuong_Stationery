@@ -21,9 +21,11 @@ public class CategoryTable {
             + " LEFT JOIN " + ProductTable.TABLE_NAME + " p "
             + " ON c." + CATEGORY_ID + " = " + "p." + ProductTable.CATEGORY_ID
             +" GROUP BY c."+ CATEGORY_ID;
-    /*"SELECT c.category_id, c.category_name, c.image, ifnull(sum(p.product_quantity),0) as sl\n" +
-            "FROM Category c LEFT JOIN Product p ON c.category_id = p.product_id\n" +
-            "GROUP BY c.category_id";*/
 
     public static final String SELECT_CATEGORY_BY_ID = "SELECT * FROM "+ TABLE_NAME + " WHERE " + CATEGORY_ID + " = ? ";
+
+    public static final String SELECT_TOTAL_REVENUE = "SELECT c.category_id, c.category_name, sum(s.billDetail_price) as total_revenue\n" +
+            "FROM Category c JOIN Product p on c.category_id = p.category_id\n" +
+            "\t\t\t\tJOIN SoldBillDetail s on p.product_id = s.product_id\n" +
+            "GROUP BY c.category_id, c.category_name";
 }

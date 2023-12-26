@@ -1,5 +1,6 @@
 package com.fianlandroidassignments.xuancuongstationery.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +8,24 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fianlandroidassignments.xuancuongstationery.R;
+import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
+import com.fianlandroidassignments.xuancuongstationery.dto.RevenueCategoryDTO;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.color.MaterialColors;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,7 +42,11 @@ public class RevenueFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    BarChart barChart;
+    List<String> xValues;
+    List<RevenueCategoryDTO> revenueCategoryDTOList;
+    TextView totalRevenue;
+    DatabaseHelper databaseHelper;
     public RevenueFragment() {
         // Required empty public constructor
     }
@@ -55,12 +76,68 @@ public class RevenueFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        databaseHelper = new DatabaseHelper(requireContext());
+        barChart = requireActivity().findViewById(R.id.barChart);
+        revenueCategoryDTOList = databaseHelper.selectRevenueByCategory();
+
+        totalRevenue = requireActivity().findViewById(R.id.tvTotalRevenueChart);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View inflatedView = inflater.inflate(R.layout.fragment_revenue, container, false);
+        xValues = new ArrayList<>();
+        barChart = inflatedView.findViewById(R.id.barChart);
+        totalRevenue = inflatedView.findViewById(R.id.tvTotalRevenueChart);
+        totalRevenue.setText("Total Revenue: ~" + databaseHelper.selectTotalRevenue()+ " VND");
+        barChart.getAxisRight().setDrawLabels(false);
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        databaseHelper = new DatabaseHelper(requireContext());
+        revenueCategoryDTOList = databaseHelper.selectRevenueByCategory();
+        int i = 0;
+        for (RevenueCategoryDTO revenue: revenueCategoryDTOList
+             ) {
+            xValues.add(revenue.getCategory_name());
+            entries.add(new BarEntry(i, revenue.getTotal_revenue()));
+            i++;
+        }
+
+       /* entries.add(new BarEntry(0, 54f));
+        entries.add(new BarEntry(1, 23f));
+        entries.add(new BarEntry(2, 12f));
+        entries.add(new BarEntry(3, 91f));*/
+
+        YAxis yAxis = barChart.getAxisLeft();
+        yAxis.setAxisMaximum(0);
+        yAxis.setAxisMaximum(DatabaseHelper.getInstance(requireContext()).selectTotalRevenue());
+
+        yAxis.setAxisLineWidth(2f);
+        yAxis.setLabelCount(10);
+        yAxis.setAxisLineColor(Color.BLACK);
+
+        BarDataSet dataSet = new BarDataSet(entries, "Category");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        BarData barData = new BarData(dataSet);
+
+        barChart.setData(barData);
+
+        barChart.getDescription().setEnabled(false);
+
+        barChart.invalidate();
+
+        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xValues));
+        barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        barChart.getXAxis().setGranularity(1f);
+        barChart.getXAxis().setGranularityEnabled(true);
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_revenue, container, false);
+        return inflatedView;
     }
 }

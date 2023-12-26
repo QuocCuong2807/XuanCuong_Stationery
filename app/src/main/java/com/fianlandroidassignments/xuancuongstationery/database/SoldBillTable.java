@@ -17,4 +17,7 @@ public class SoldBillTable {
     public static final String SELECT_ALL_SOLD_BILL = "SELECT * FROM " + TABLE_NAME;
 
     public static final String SELECT_SOLD_BILL_BY_ID = "SELECT * FROM " + TABLE_NAME + " WHERE "+ SOLD_BILL_ID  + " = ? ";
+
+    public static final String SELECT_TOTAL_REVENUE = "SELECT  sum(s.total_price) as Total_revenue\n" +
+            "FROM SoldBill s\n";
 }

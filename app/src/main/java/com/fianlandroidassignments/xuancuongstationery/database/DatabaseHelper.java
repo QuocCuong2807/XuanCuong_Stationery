@@ -15,6 +15,7 @@ import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDetailDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProductDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.ProviderDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.RevenueCategoryDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDetailDTO;
 
@@ -642,5 +643,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return soldBillDetailDTOList;
+    }
+
+    public List<RevenueCategoryDTO> selectRevenueByCategory(){
+        sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(CategoryTable.SELECT_TOTAL_REVENUE, null);
+        List<RevenueCategoryDTO> revenueList = new ArrayList<>();
+
+        if(cursor.moveToFirst()){
+            do {
+
+                int category_id = cursor.getInt(0);
+                String category_name = cursor.getString(1);
+                long total_revenue = cursor.getLong(2);
+
+                revenueList.add(new RevenueCategoryDTO(category_id, category_name, total_revenue));
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return revenueList;
+    }
+
+    public long selectTotalRevenue(){
+        sqLiteDatabase = this.getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(SoldBillTable.SELECT_TOTAL_REVENUE, null);
+        cursor.moveToFirst();
+        long revenue =  cursor.getLong(0);
+
+        cursor.close();
+
+        return revenue;
+
     }
 }

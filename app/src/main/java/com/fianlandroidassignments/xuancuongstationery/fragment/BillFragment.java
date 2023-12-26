@@ -22,6 +22,7 @@ import com.fianlandroidassignments.xuancuongstationery.adapter.RecyclerViewImpor
 import com.fianlandroidassignments.xuancuongstationery.adapter.RecyclerViewSoldBillAdapter;
 import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
 import com.fianlandroidassignments.xuancuongstationery.dto.ImportBillDTO;
+import com.fianlandroidassignments.xuancuongstationery.dto.RevenueCategoryDTO;
 import com.fianlandroidassignments.xuancuongstationery.dto.SoldBillDTO;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class BillFragment extends Fragment {
     ArrayAdapter<String> adapterBillTypes;
     List<ImportBillDTO> importBillDTOS;
     List<SoldBillDTO> soldBillDTOS;
+
 
     RelativeLayout relativeLayoutImportBill;
     RelativeLayout relativeLayoutSoldBill;
