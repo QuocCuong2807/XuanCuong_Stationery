@@ -43,6 +43,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -351,7 +352,8 @@ public class ImportActivity extends AppCompatActivity {
         else{
             //update existing product quantity, insert new import bill
             try {
-                ImportBillDTO importBillDTO = new ImportBillDTO(new Date().toString(), 0);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                ImportBillDTO importBillDTO = new ImportBillDTO(simpleDateFormat.format(new Date()), 0);
                 long billId = databaseHelper.insertNewImportBill(importBillDTO);
                 ImportBillDTO newImportBill = databaseHelper.selectImportById((int)billId);
 

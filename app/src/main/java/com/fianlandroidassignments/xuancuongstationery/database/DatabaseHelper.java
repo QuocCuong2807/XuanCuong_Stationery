@@ -25,7 +25,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "XuanCuongStationery.db";
-    private static final int DATABASE_VERSION = 7;
+    private static final int DATABASE_VERSION = 8;
     SQLiteDatabase sqLiteDatabase;
 
     public DatabaseHelper(@Nullable Context context) {
@@ -477,6 +477,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public List<ImportBillDTO> selectAllImportBill(){
+        List<ImportBillDTO> billDTOList = new ArrayList<>();
+
+        sqLiteDatabase = this.getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(ImportBillTable.SELECT_ALL_IMPORT_BILL, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int bill_id = cursor.getInt(0);
+                String bill_date = cursor.getString(1);
+                int bill_total = cursor.getInt(2);
+
+                billDTOList.add(new ImportBillDTO(bill_id, bill_date, bill_total));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return billDTOList;
+    }
+
     /* MANIPULATE WITH IMPORT BILL DETAIL TABLE*/
 
     public long insertNewImportBillDetail(ProductDTO productDTO, ImportBillDTO importBillDTO) {
@@ -561,6 +582,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 SoldBillTable.SOLD_BILL_ID + " = ? ", new String[]{String.valueOf(id)});
 
         return numOfRowAffected;
+    }
+
+    public List<SoldBillDTO> selectAllSoldBill(){
+        List<SoldBillDTO> soldBillDTOList = new ArrayList<>();
+
+        sqLiteDatabase = this.getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(SoldBillTable.SELECT_ALL_SOLD_BILL, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int bill_id = cursor.getInt(0);
+                String bill_date = cursor.getString(1);
+                int bill_total = cursor.getInt(2);
+
+                soldBillDTOList.add(new SoldBillDTO(bill_id, bill_date, bill_total));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return soldBillDTOList;
     }
 
     /*MANIPULATE WITH SOLD BILL DETAIL TABLE*/

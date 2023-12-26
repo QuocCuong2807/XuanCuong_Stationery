@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="#FAF9F6"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvRVBillId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="1"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tvRVBillDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25/12/2023"
+                android:padding="8dp"
+                android:layout_marginStart="44dp"
+                android:textSize="18sp"
+                android:layout_toEndOf="@+id/tvRVBillId"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvRVBillTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1000000 VND"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
