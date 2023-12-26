@@ -50,7 +50,7 @@ public class RecyclerViewSoldBillAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(@NonNull RecyclerViewSoldBillAdapter.MyViewHolder holder, int position) {
         holder.tvSoldBillId.setText(String.valueOf(soldBillDTOS.get(position).getBillId()));
         holder.tvSoldBillDate.setText(String.valueOf(soldBillDTOS.get(position).getDate()));
-        holder.tvSoldBillTotal.setText(soldBillDTOS.get(position).getTotalPrice() + " VND");
+        holder.tvSoldBillTotal.setText(Common.getCurrencyFormat().format(soldBillDTOS.get(position).getTotalPrice()) + " VND");
 
     }
 

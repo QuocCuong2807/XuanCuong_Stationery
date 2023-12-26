@@ -222,8 +222,10 @@ public class WaitingListActivity extends AppCompatActivity {
              ) {
 
             //minus product quantity
-            long rowAffected = databaseHelper.updateSellProductQuantity(entry.getValue().getProduct().getProduct_id()
+            long rowAffected = databaseHelper
+                    .updateSellProductQuantity(entry.getValue().getProduct().getProduct_id()
                                                             , entry.getValue().getProductQuantity());
+
             if (rowAffected == 0){
                 Toast.makeText(WaitingListActivity.this, "Số lượng mua vượt quá số lượng hiện có", Toast.LENGTH_SHORT).show();
                 SellWaitingList.getInstance(WaitingListActivity.this).getSellWaitingList().clear();
@@ -253,10 +255,12 @@ public class WaitingListActivity extends AppCompatActivity {
     private void clearSellList(){
         SellWaitingList.getInstance(WaitingListActivity.this).getSellWaitingList().clear();
         setAdapterToListView();
+        setHideorShowBtn();
     }
     private void clearImportList(){
         WaitingList.importList.clear();
         setAdapterToListView();
+        setHideorShowBtn();
     }
 
     private int calTotalSoldBillPrice(List<SoldBillDetailDTO> soldBillDetailList){

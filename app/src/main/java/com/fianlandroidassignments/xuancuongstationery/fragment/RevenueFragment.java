@@ -1,6 +1,8 @@
 package com.fianlandroidassignments.xuancuongstationery.fragment;
 
 import android.graphics.Color;
+import android.icu.number.NumberFormatter;
+import android.icu.number.NumberFormatterSettings;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.fianlandroidassignments.xuancuongstationery.Common.Common;
 import com.fianlandroidassignments.xuancuongstationery.R;
 import com.fianlandroidassignments.xuancuongstationery.database.DatabaseHelper;
 import com.fianlandroidassignments.xuancuongstationery.dto.RevenueCategoryDTO;
@@ -23,6 +26,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.color.MaterialColors;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +99,10 @@ public class RevenueFragment extends Fragment {
         xValues = new ArrayList<>();
         barChart = inflatedView.findViewById(R.id.barChart);
         totalRevenue = inflatedView.findViewById(R.id.tvTotalRevenueChart);
-        totalRevenue.setText("Total Revenue: ~" + databaseHelper.selectTotalRevenue()+ " VND");
+
+
+        totalRevenue.setText("Total Revenue: ~" + Common.getCurrencyFormat()
+                                            .format(databaseHelper.selectTotalRevenue()) + " VND");
         barChart.getAxisRight().setDrawLabels(false);
         ArrayList<BarEntry> entries = new ArrayList<>();
         databaseHelper = new DatabaseHelper(requireContext());

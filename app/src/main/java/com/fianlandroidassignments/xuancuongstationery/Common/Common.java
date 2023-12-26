@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DecimalFormat;
 
 public class Common {
     public static Bitmap getBitmapFromByteArray(byte[] bytes){
@@ -31,5 +32,9 @@ public class Common {
         }
 
         return image;
+    }
+
+    public static DecimalFormat getCurrencyFormat (){
+        return new DecimalFormat("###,###,###");
     }
 }

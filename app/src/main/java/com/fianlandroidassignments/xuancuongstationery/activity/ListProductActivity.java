@@ -177,23 +177,20 @@ public class ListProductActivity extends AppCompatActivity {
         edtEditProductSellPrice.setText(String.valueOf(product.getSell_price()));
 
         btnCloseEditProductDialog.setOnClickListener(view -> dialog.dismiss());
-        btnEditProductDialog.setOnClickListener(view -> {
-            Toast.makeText(ListProductActivity.this, "từ từ làm", Toast.LENGTH_SHORT).show();
-        });
 
         editProductImage.setOnClickListener(view -> pickImage());
 
         btnEditProductDialog.setOnClickListener(view ->
                 editProductInformation(
                         product.getProduct_id(), editProductImage, edtEditProductName
-                        , edtEditProductImportPrice, edtEditProductSellPrice
+                        , edtEditProductImportPrice, edtEditProductSellPrice, dialog
                 ));
 
         dialog.show();
     }
 
     private void editProductInformation(int oldId, ImageView productImage, EditText productName
-            , EditText importPrice, EditText sellPrice) {
+            , EditText importPrice, EditText sellPrice, Dialog dialog) {
 
         if (!validateEditInput(productName, importPrice, sellPrice)) {
             Toast.makeText(ListProductActivity.this, "Không được để trống thông tin", Toast.LENGTH_SHORT).show();
@@ -208,6 +205,7 @@ public class ListProductActivity extends AppCompatActivity {
         if (rowAffected > 0) {
             Toast.makeText(ListProductActivity.this, "success", Toast.LENGTH_SHORT).show();
             setAdapter();
+            dialog.dismiss();
         } else
             Toast.makeText(ListProductActivity.this, "fail", Toast.LENGTH_SHORT).show();
 

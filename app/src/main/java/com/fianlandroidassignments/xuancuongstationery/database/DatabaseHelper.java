@@ -182,6 +182,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //delete 1 record in category table by id
     public long deleteCategory(int category_id) {
         sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.delete(ProductTable.TABLE_NAME,
+                ProductTable.CATEGORY_ID + " = ? ", new String[]{String.valueOf(category_id)});
+
         long result = sqLiteDatabase.delete(CategoryTable.TABLE_NAME,
                 CategoryTable.CATEGORY_ID + " = ? ", new String[]{String.valueOf(category_id)});
         return result;

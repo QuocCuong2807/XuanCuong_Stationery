@@ -49,9 +49,13 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewProductAdapter.MyViewHolder holder, int position) {
         holder.imgProduct.setImageBitmap(Common.getBitmapFromByteArray(productDTOS.get(position).getImage()));
+
         holder.tvProductName.setText(productDTOS.get(position).getProduct_name());
-        holder.tvProductImportPrice.setText("Import Price: " + productDTOS.get(position).getImport_price() + " VND");
-        holder.tvProductSellPrice.setText("Sell Price: " + productDTOS.get(position).getSell_price() + " VND");
+        holder.tvProductImportPrice.setText("Import Price: " + Common.getCurrencyFormat()
+                                        .format(productDTOS.get(position).getImport_price()) + " VND");
+        holder.tvProductSellPrice.setText("Sell Price: " + Common.getCurrencyFormat()
+                                        .format(productDTOS.get(position).getSell_price()) + " VND");
+
         holder.tvProductQuantity.setText("Quantity: " + productDTOS.get(position).getProduct_quantity());
 
     }

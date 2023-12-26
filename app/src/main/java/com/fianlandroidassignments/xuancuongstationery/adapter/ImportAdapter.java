@@ -53,7 +53,7 @@ public class ImportAdapter extends BaseAdapter {
         productImg.setImageBitmap(Common.getBitmapFromByteArray(productList.get(position).getImage()));
         productName.setText(productList.get(position).getProduct_name());
         quantity.setText("SL: " + productList.get(position).getProduct_quantity());
-        price.setText("Price: " + productList.get(position).getSell_price() + " VND");
+        price.setText("Price: " + Common.getCurrencyFormat().format(productList.get(position).getSell_price()) + " VND");
 
         return convertView;
     }

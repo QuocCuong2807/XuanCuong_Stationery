@@ -64,9 +64,16 @@ public class SellAdapter extends BaseAdapter {
 
 
 
-        sellQuantity.setText(String.valueOf(sellList.get((int)sellList.keySet().toArray()[position]).getProductQuantity()));
-        productImg.setImageBitmap(Common.getBitmapFromByteArray(DatabaseHelper.getInstance(context)
-                .selectProductById((int)sellList.keySet().toArray()[position]).getImage()));
+        sellQuantity.setText("SL: " + sellList.get((int)sellList.keySet().toArray()[position]).getProductQuantity());
+
+        productImg.setImageBitmap
+                (
+                    Common.getBitmapFromByteArray
+                            (DatabaseHelper
+                                .getInstance(context)
+                                .selectProductById((int)sellList.keySet().toArray()[position]).getImage()
+                            )
+                );
 
         productName.setText(DatabaseHelper.getInstance(context)
                 .selectProductById((int)sellList.keySet().toArray()[position]).getProduct_name());
