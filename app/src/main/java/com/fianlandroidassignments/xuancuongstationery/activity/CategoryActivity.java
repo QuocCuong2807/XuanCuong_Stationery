@@ -125,9 +125,9 @@ public class CategoryActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
         CategoryDTO categoryDTO = categoryDTOList.get(info.position);
-        if (item.getItemId() == R.id.context_view)
-            Toast.makeText(CategoryActivity.this, "Ban da chon xem o vi tri: "
-                    + info.position, Toast.LENGTH_LONG).show();
+        if (item.getItemId() == R.id.context_view){
+              Toast.makeText(CategoryActivity.this, "chức năng chưa hoàn thiện", Toast.LENGTH_SHORT).show();
+        }
         else if (item.getItemId() == R.id.context_delete) {
             databaseHelper.deleteCategory(categoryDTO.getCategory_id());
             displayListView();

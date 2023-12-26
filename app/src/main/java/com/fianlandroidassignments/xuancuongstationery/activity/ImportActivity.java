@@ -199,6 +199,7 @@ public class ImportActivity extends AppCompatActivity {
                 autoCompleteTextViewNotExistsCategory.setText("");
                 autoCompleteTextViewNotExistsProvider.setText("");
                 imgNewImport.setImageResource(R.drawable.gallery);
+
                 setAdapterForAutoCompleteTextView();
             }
         }

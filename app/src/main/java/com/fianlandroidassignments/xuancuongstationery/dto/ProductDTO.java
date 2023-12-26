@@ -1,5 +1,14 @@
 package com.fianlandroidassignments.xuancuongstationery.dto;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
 public class ProductDTO {
     private int product_id;
     private String product_name;
@@ -26,6 +35,7 @@ public class ProductDTO {
         this.category = category;
         this.provider = provider;
     }
+
 
     public ProductDTO(String product_name, byte[] image, int product_quantity, int import_price,
                       int sell_price, int product_status, String product_description, CategoryDTO category,
@@ -120,4 +130,5 @@ public class ProductDTO {
     public void setProvider(ProviderDTO provider) {
         this.provider = provider;
     }
+
 }

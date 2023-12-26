@@ -15,6 +15,9 @@
         android:theme="@style/Theme.XuanCuongStationery"
         tools:targetApi="31">
         <activity
+            android:name=".ViewProductByCateIdActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ListProductActivity"
             android:exported="false" />
         <activity
